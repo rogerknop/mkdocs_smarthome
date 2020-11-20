@@ -1,0 +1,18 @@
+// In den Konfigurations JSON sind Kommentare erlaubt!
+{
+  // Hier können Konfigurationseinstellungen überschrieben werden, die nur lokal verwendet werden!
+  // Nur die Attribute definieren, die überschrieben werden sollen.
+  // Deployment Einstellungen
+  "Deploy": {
+      "hostname": "ftp.dieknops.de",
+      "user": "dieknops",
+      "remotePath": "/httpdocs/smarthome"
+  },
+  "Convert": {
+      "active": true,
+      "useLibreOffice": false,
+        "PowerPoint": {
+          "allSlides": false
+        }
+    }
+}

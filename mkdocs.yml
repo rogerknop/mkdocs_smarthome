@@ -1,0 +1,14 @@
+site_name: Smarthome
+theme: 
+  name: material
+  logo: 'img/site/logo.png'
+  favicon: 'img/site/favicon.ico'
+extra_css: [custom/material/css/custom_styles.css]
+#prev_next_buttons_location: none
+#theme: windmill-dark
+#extra_css: [custom/windmill_dark/custom_styles.css]
+#theme: readthedocs
+#extra_css: [custom/readthedocs/custom_styles.css]
+nav: 
+- Home: 'index.md'
+- Architektur: 'architektur/index.md'
