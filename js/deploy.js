@@ -12,6 +12,13 @@ const remotePath = config.get("Deploy.remotePath");
 const privateKeyFile = homedir + config.get("Deploy.pathPrivateKeyRel2Home");
 const privateKey = fs.readFileSync(privateKeyFile, 'utf8');
 
+if (fs.existsSync("site/htaccess") && fs.existsSync("site/htpasswd")) {
+  console.log(' ');
+  console.log('Rename htaccesss->.htaccess & htpasswd->.htpasswd before deploying...');
+  fs.renameSync("site/htaccess", "site/.htaccess");
+  fs.renameSync("site/htpasswd", "site/.htpasswd");
+}
+
 console.log(' ');
 console.log('***** Deployment START *********************************************');
 
@@ -47,7 +54,11 @@ client.connect(sshconfig)
     .then(function() {
       nodeSsh.putDirectory('site', remotePath, {
         recursive: true,
-        concurrency: 1
+        concurrency: 1,
+        validate: function(itemPath) {
+          //const baseName = path.basename(itemPath)
+          return true;
+        }
       }).then(function(status) {
         if (status) {
           console.log('--> Die Seite wurde erfolgreich übertragen.');
