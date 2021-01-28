@@ -1,0 +1,310 @@
+# Installation Raspberry
+
+### Allgemein
+
+Alle Informationen zum Raspberry Pi findet man hier: <a href="https://www.raspberrypi.org" target="_blank">https://www.raspberrypi.org</a>  
+Inzwischen gibt es ein Tool auf der Seite, das man herunterlädt und ausführt.  
+
+Dieses Tool erstellt ein Raspberry Pi Image auf einer SD Card, das dann in den Raspberry Pi eingesteckt wird und das Betriebssystem sollte dann starten.  
+
+Für den ersten Start eine Tastatur Maus und Bildschirm an den Raspi hängen und anschalten.  
+Es kann auch ein WLAN beim Start aktivieren (Google Suche) oder ein Netzwerkkabel angklemmen und starten. 
+Dann findet man die IP im Router und kann direkt auf den Raspi zugreifen. Allerdings dann ohne Desktop Windows Unterstützung. Dann geht nur Kommondozeilenebene im Terminal.  
+
+Im Betrieb erfolgt der Zugriff auf den Raspi über SSH mit dem Tool Putty und der entsprechenden IP Adresse. Dabei muss der Raspi nur per WLAN oder LAN Kabel im Netz hängen.   
+
+Das folgende Problem taucht nur auf, wenn die Tastatur noch nicht geändert ist.
+User: pi / Passwort: raspberry (Achtung – evtl. wg. Tastatur: raspberrz) => ändern in (siehe Password Depot) mit passwd
+
+### Installation aktualisieren
+
+Man kann die Standardinstallation aktualisieren. Das bedeutet nicht, dass alle Installationen auch aktualisiert werden! Zum Beispiel KNXD muss manuell aktualisiert werden.  
+Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Dies erfolgt über den Zusatz "_sudo_" vor den einzelnen Befehlen. Es gibt aber auch Ausnahmen.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get update
+    sudo apt-get dist-upgrade
+    </pre>
+ 
+### Konfigurationsmenü  
+
+!!! terminal "Terminal"
+    <pre>sudo raspi-config 
+    //Bzw. im Desktop
+    startx</pre>
+Hostname / Autostart startx / Zeitzone / Locale / Tastatur / SSH – unter Interfacing Options usw.
+Hostname trotzdem auch wie in [Kapitel _Statische IP vergeben_](/install/raspi/#statische-ip-vergeben) beschrieben hostname in dhcpcd.conf anpassen.
+
+### IP anzeigen
+
+Ermitteln der aktuellen IP im Netzwerk.
+
+!!! terminal "Terminal"
+    <pre>ifconfig</pre>
+
+### Statische IP vergeben
+
+Geht inzwischen auch über Desktop!
+
+Damit der Raspi im Netzwerk immer mit der gleichen IP angesprochen werden kann, muss eine statische IP vergeben werden. Der Router vergibt sonst unter Umständen nach einer gewissen Zeit eine neue IP.  
+Im Router muss ein Bereich für feste/ statische IPs eingetragen werden, der nicht über DNS vergeben wird. Aus diesem Bereich muss die statische IP gewählt werden.  
+_Achtung!_ In raspi-config -> Network Options -> network interface names muss predictable interface names disabled sein!
+
+In diesem Beispiel wird die statische IP des Raspis auf 192.168.1.99 gesetzt.
+
+!!! terminal "Terminal" 
+    <pre>sudo nano /etc/dhcpcd.conf
+    
+    //Alte Versionen:
+    /etc/network/interfaces)</pre>
+
+??? file "/etc/dhcpcd.conf"
+    <pre>
+    hostname
+    berry
+
+    interface
+    static ip_address=192.168.1.99/24
+    static routers=192.168.1.1
+    static domain_name_servers=192.168.1.1 8.8.8.8
+    </pre>
+
+### IPv6 deaktivieren
+
+Geht inzwischen auch über Desktop!
+
+Keine Ahnung mehr, wo das Probleme verursacht hat!?
+
+!!! terminal "Terminal"
+    <pre>sudo nano /etc/sysctl.conf</pre>
+
+!!! file "/etc/dhcpcd.conf"
+    <pre>net.ipv6.conf.all.disable_ipv6=1</pre>
+
+### WLAN
+
+Geht inzwischen auch über Desktop!
+
+<a href="http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_Network.html" target="_blank">http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_Network.html</a>
+
+Die Netzwerkkonfiguration editieren wie in [Kapitel _Statische IP vergeben_](/install/raspi/#statische-ip-vergeben):
+
+!!! terminal "Terminal" 
+    <pre>sudo nano /etc/dhcpcd.conf
+    
+    //Alte Versionen:
+    /etc/network/interfaces)</pre>
+
+??? file "/etc/dhcpcd.conf - Dynamische IP"
+    <pre>
+    auto lo
+    iface lo inet loopback
+    iface eth0 inet dhcp
+    auto wlan0
+    iface wlan0 inet dhcp
+    allow-hotplug wlan0
+    wpa-ap-scan 1
+    wpa-scan-ssid 1
+    wpa-ssid "NAME-DES-WLAN"
+    wpa-psk "DER-GEHEIME-WLAN-KEY"
+    </pre>
+
+??? file "/etc/dhcpcd.conf - Statische IP"
+    <pre>
+    auto lo
+    iface lo inet loopback
+    iface eth0 inet static
+    address 172.20.0.2
+    netmask 255.255.255.0
+    gateway 172.20.0.1
+    auto wlan0
+    allow-hotplug wlan0
+    iface wlan0 inet static
+    address 192.168.1.99
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+    wpa-ap-scan 1
+    wpa-scan-ssid 1
+    wpa-ssid "NAME-DES-WLAN"
+    wpa-psk "DER-GEHEIME-WLAN-KEY"
+    </pre>
+
+!!! terminal "Terminal"
+    <pre>
+    //Änderungen dhcpcd.conf aktivieren:
+    /etc/init.d/networking restart
+    </pre>
+
+Zum Testen der Verbindung _ifconfig_ oder _ping google.com_ im Terminal eingeben.
+
+**Problem!** Netzwerkverbindung steht ping 8.8.8.8 geht, aber ping google.com geht nicht
+In _/etc/resolv.conf_ gleiche IP wie das Gateway eintragen:
+
+!!! terminal "Terminal"
+    <pre>
+    sudo nano /etc/resolv.conf
+    </pre>
+
+### SSH aktivieren
+
+Damit der SSH Zugriff über das Tool Putty innerhalb des Netzwerks funktioniert, muss auf dem Raspi SSH aktiviert werden.
+
+Geht auch über Desktop in der Konfiguration!
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install ssh 
+    sudo /etc/init.d/ssh start
+    </pre>
+~~sudo update-rc.d ssh defaults~~ Autostart beim Booten (alt) => gemäß [Kapitel _Konfigurationsmenü_](/install/raspi/#konfigurationsmenu) Interfaces aktivieren
+
+### Zeitzone
+
+!!! terminal "Terminal"
+    <pre>sudo dpkg-reconfigure tzdata</pre>
+Europe und Berlin auswählen
+
+### Zeitserver
+
+Die Einrichtung des Zeitservers stellt die aktuelle Uhrzeit sicher.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install ntpdate
+    sudo ntpdate -u de.pool.ntp.org
+    </pre>
+
+### Rechnername ändern
+
+Den aktuellen Namen des Raspberrys kann man anpassen. In diesem beispiel auf "_berry_"
+
+!!! terminal "Terminal"
+    <pre>sudo nano /etc/hosts</pre>
+!!! file "/etc/hosts"
+    <pre>127.0.0.1 berry</pre>
+
+!!! terminal "Terminal"
+    <pre>sudo nano /etc/hostname</pre>
+
+!!! file "/etc/hostname"
+    <pre>berry</pre>
+
+!!! terminal "Terminal"
+    <pre>sudo hostname -F /etc/hostname</pre>
+
+### Samba installieren
+
+Der Samba Server aktiviert die Möglichkeit, dass innerhalb des Netzwerks auf bestimmte Verzeichnisse des Raspis zugegriffen werden kann.  
+Dadurch kann man die FHEM Konfiguration in die automatische Sicherung mit einbinden.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install samba cifs-utils
+    sudo nano /etc/samba/smb.conf
+    </pre>
+
+??? file "/etc/samba/smb.conf - FHEM erst nach der FHEM Installation ergänzen!"
+    <pre>
+    workgroup = PRIVAT
+    wins support = yes
+
+    \#Am Ende ergänzen
+    [fhem]
+    path = /opt/fhem
+    public = yes
+    writeable = yes
+    read only = no
+    </pre>
+
+!!! terminal "Terminal"
+    <pre>
+    //smb.conf testen:
+    testparm
+
+    //Änderungen smb.conf aktivieren (start oder stop geht auch)
+    sudo service smbd restart
+    </pre>
+
+### Festplatte mounten
+
+Mit Mounten kann man andere Netzwerklaufwerke in den Raspi einbinden, damit man darauf zugreifen kann.  
+Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzwerk zugreifen.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo mkdir /kino
+    sudo mkdir /nas
+    sudo nano /etc/fstab
+    </pre>
+!!! file "/etc/hostname"
+    <pre>
+    //192.168.1.111/kino    /kino    cifs    defaults,user=admin,password=admin,rw    0    0
+    //192.168.1.111/roger    /nas    cifs    defaults,user=admin,password=admin, x-systemd.automount,x-systemd.requires=network-online target,rw    0    0
+    </pre>
+_Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst nach Netzwerkverbindung versucht wird.
+
+!!! terminal "Terminal: _fstab neu einlesen_"
+    <pre>sudo mount -a </pre>
+
+### NodeJS & NPM installieren
+
+<a href="https://github.com/nodesource/distributions/blob/master/README.md" target="_blank">Installations Infos</a>
+
+<a href="https://github.com/nodesource/distributions/tree/master/deb" target="_blank">Alle verfügbaren Versionen</a>
+
+Das NodeJS Paket ist nodejs und NICHT node!
+
+Evtl. muss vorher das node Tool entfernt werden:
+
+!!! terminal "Terminal"
+    <pre>sudo apt purge node</pre>
+
+!!! terminal "Terminal"
+    <pre>
+    //Update Package Manager auf die aktuellste Node Version
+    curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    //Update Package Manager auf eine spezifische Node Version
+    curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    </pre>
+
+NPM wird automatisch installiert zusammen mit den neuen NodeJS Versionen.
+
+*Achtung* node -v kann erst ausgeführt werden, wenn ein neues Terminal geöffnet wird (PATH).
+
+Autostart eines eigenen NodeJS Web Servers:
+
+!!! terminal "Terminal"
+    <pre>sudo crontab -e</pre>
+
+!!! file "crontab"
+    <pre>
+    @reboot sudo /usr/bin/node /smartdisplay/index.js &
+    </pre>
+
+### Hilfreiche Befehle
+
+
+| Befehl | Beschreibung  |
+| --- | --- |
+| which | Pfad eines Programms ermitteln |
+| chmod u+w <file/path> | Datei/Pfad User darf auch schreiben (oder 755 Muster) |
+| chown -R usr:grp <file/path> | Datei/Pfad Owner User usr und Gruppe grp setzen |
+
+### Editor nano installieren
+
+Dieser Terminal Editor ist einfacher zu bedienen, als der VI, aber trotzdem noch relativ rudimentär.
+
+!!! terminal "Terminal"
+    <pre>sudo apt-get install nano</pre>
+
+### Deutsche Tastatur im Terminal
+
+Ohne Desktop kann man auch im Terminal die deutsche Tastatur einrichten.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo dpkg-reconfigure keyboard-configuration
+    </pre>
+Dann "_Generische Tastatur mit 105 Tasten (Intl)_" auswählen.
+Anschließend "_German_" und dann alles bestätigen.

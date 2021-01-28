@@ -13,7 +13,10 @@ Hier die Schritte für die Installation. Der letzte git Befehl bewirkt, dass die
 pip install --upgrade pip
 pip install mkdocs
 pip install mkdocs-material
-git clone https://github.com/rogerknop/mkdocs_moba.git
+pip install mkdocs-material-extensions  //-----> Icons Übersicht https://petershaggynoble.github.io/MDI-Sandbox/
+pip install pymdown-extensions  //-----> Extensions e.g. Strikethrough, Latex Formeln usw.
+pip install toc //-----> Creates Permalinks or Anchors for header
+git clone https://github.com/rogerknop/mkdocs_smarthome.git
 npm install
 git update-index assume-unchanged config/local.json
 ```
