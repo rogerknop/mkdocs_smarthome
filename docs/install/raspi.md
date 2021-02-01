@@ -268,22 +268,43 @@ Evtl. muss vorher das node Tool entfernt werden:
     sudo apt-get install -y nodejs
     </pre>
 
-NPM wird automatisch installiert zusammen mit den neuen NodeJS Versionen.
-
+NPM wird automatisch installiert zusammen mit den neuen NodeJS Versionen.  
 *Achtung* node -v kann erst ausgeführt werden, wenn ein neues Terminal geöffnet wird (PATH).
 
-Autostart eines eigenen NodeJS Web Servers:
+### Autostart eines NodeJS Scripts
+
+Autostart eines eigenen NodeJS Web Servers über das Tool pm2.  
+Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.  
 
 !!! terminal "Terminal"
-    <pre>sudo crontab -e</pre>
-
-!!! file "crontab"
     <pre>
-    @reboot sudo /usr/bin/node /smartdisplay/index.js &
+    sudo npm install -g pm2
+    pm2 startup
+    //Es wird ein Kommando erzeugt und das kopieren und ausführen
+    cd /smartdisplay
+    pm2 start server/index.js -- 8000
+    //Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
+    pm2 save
     </pre>
 
-### Hilfreiche Befehle
+*Achtung!* Ports unter 1024 gehen nicht.    
 
+Man kann die Permessions aktivieren über:
+
+!!! terminal "Terminal"
+    <pre>
+    sudo setcap 'cap_net_bind_service=+ep' \`which node\`
+    </pre>
+
+pm2 Befehle (komplett über pm2 -h):
+
+| Befehl | Beschreibung  |
+| --- | --- |
+| l | Listet alle Prozesse |
+| del <nr> | Löscht Prozess Nr <nr> |
+| save | Speichert den aktuellen Stand ab |
+
+### Hilfreiche Befehle
 
 | Befehl | Beschreibung  |
 | --- | --- |
