@@ -311,6 +311,8 @@ pm2 Befehle (komplett über pm2 -h):
 | which | Pfad eines Programms ermitteln |
 | chmod u+w <file/path> | Datei/Pfad User darf auch schreiben (oder 755 Muster) |
 | chown -R usr:grp <file/path> | Datei/Pfad Owner User usr und Gruppe grp setzen |
+| usermod -aG grp usr | Fügt den User usr zur Gruppe grp hinzu |
+| gpasswd -d usr grp | Löscht den User usr von der Gruppe grp |
 
 ### Editor nano installieren
 
