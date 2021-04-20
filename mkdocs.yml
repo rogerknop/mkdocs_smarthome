@@ -24,6 +24,7 @@ nav:
   - Tipps: 'fhemtipps/fhem_tipps.md'
 - ESP: 
   - Installation: 'install/esp.md'
+  - Sensoren: 'esptipps/sensoren.md'
   - Tipps: 'esptipps/esp_tipps.md'
 - KNX: 'install/knx.md'
 - Farblegende: 'install/legende.md'

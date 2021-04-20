@@ -6,6 +6,15 @@ Die Kabeldicke 22 AWG (0,32mm<sup>2</sup>) ist optimal zum Löten.
 
 Steckverbinder gibt es unter dem Schlagwort JST zu finden. Die funktionieren auch wie die PSK Stecker mit den PINs (Crimpzange).
 
+### Access Point
+
+<a href="https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/soft-access-point-examples.html" target="_blank">https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/soft-access-point-examples.html</a>
+
+Es ist möglich den ESP als Soft Access Point aufzusetzen über:
+
+???+ file ""
+    <pre>WiFi.softAP("ESPsoftAP_01", "pass-to-soft-AP");</pre>
+
 ### Zusatzantenne
 
 <a href="https://www.stall.biz/project/esp8266-esp12-mit-externer-wlan-antenne-fuer-wiffi-und-co" target="_blank">https://www.stall.biz/project/esp8266-esp12-mit-externer-wlan-antenne-fuer-wiffi-und-co</a>
