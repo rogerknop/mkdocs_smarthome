@@ -52,7 +52,10 @@ In die Datei authorized_keys muss der Inhalt der Datei .ssh/id_rsa.pub kopiert w
 Es sollte pro PPTX nur ein Slide existieren, damit beide Konvertierungsvarianten verwendet werden können.
 
 ## PPTX convert
-Es werden all Slides aus den in oriDocs gefundenen PPTX mit einem PowerShell Script exportiert.
+Es werden all Slides aus den in oriDocs gefundenen PPTX mit einem PowerShell Script exportiert.  
+Evtl. muss im Windows die Berechtigung für das Ausführen von PowerShell Scripts erlaubt werden:  
+* set-executionpolicy remotesigned - nur Remote muss signiert sein (besser und sicherer)
+* set-executionpolicy Unrestricted - ALLE dürfen ausführen. Sehr unsicher!
 
 ## LibreOffice convert
 LibreOffice installieren und Pfad im Script convert.js prüfen.  
