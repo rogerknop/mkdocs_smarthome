@@ -38,16 +38,6 @@ npm run convert => Powerpoint Slides in JPG exportieren
 npm run convertdeploy => Volles Programm: Convert, Build und Deploy
 ```
 
-# SSH per Private und Public Key
-Es müssen zuerst auf dem Rechner im Homeverzeichnis die Dateien ~/.ssh/id_rsa und ~/.ssh/id_rsa.pub angelegt werden (sshgen)  
-Dann muss auf dem Server das .ssh Verzeichnis mit der Datei authorized_key angelegt werden:
-
-```
-(umask 077 && test -d ~/.ssh || mkdir ~/.ssh)
-(umask 077 && touch ~/.ssh/authorized_keys)
-```
-In die Datei authorized_keys muss der Inhalt der Datei .ssh/id_rsa.pub kopiert werden.
-
 # Slides in Bilder konvertieren
 Es sollte pro PPTX nur ein Slide existieren, damit beide Konvertierungsvarianten verwendet werden können.
 

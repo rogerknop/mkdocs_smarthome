@@ -34,7 +34,8 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
     //Bzw. im Desktop
     startx</pre>
 Hostname / Autostart startx / Zeitzone / Locale / Tastatur / SSH – unter Interfacing Options usw.
-Hostname trotzdem auch wie in [Kapitel _Statische IP vergeben_](/install/raspi/#statische-ip-vergeben) beschrieben hostname in dhcpcd.conf anpassen.
+Hostname trotzdem auch wie in [Kapitel _Statische IP vergeben_](/install/raspi/#statische-ip-vergeben) beschrieben hostname in dhcpcd.conf anpassen.  
+Warten auf Netzwerk beim booten
 
 ### IP anzeigen
 
@@ -157,6 +158,20 @@ Geht auch über Desktop in der Konfiguration!
     sudo /etc/init.d/ssh start
     </pre>
 ~~sudo update-rc.d ssh defaults~~ Autostart beim Booten (alt) => gemäß [Kapitel _Konfigurationsmenü_](/install/raspi/#konfigurationsmenu) Interfaces aktivieren
+
+***ACHTUNG!***
+Falls die IP schon mal von einem PC aus per SSH verbunden wurde per Putty oder VSCode, dann die IP Einträge aus der Datei **"%UserProfile%/.ssh/known_hosts"** entfernen
+
+### SSH per Private und Public Key => keine Passwortabfrage in VSCode
+Es müssen zuerst auf dem Remote Rechner (Windows) im Homeverzeichnis die Dateien ~/.ssh/id_rsa und ~/.ssh/id_rsa.pub angelegt werden (sshgen)  
+Dann muss auf dem Server das .ssh Verzeichnis mit der Datei authorized_key angelegt werden:
+
+```
+(umask 077 && test -d ~/.ssh || mkdir ~/.ssh)
+(umask 077 && touch ~/.ssh/authorized_keys)
+```
+In die Datei authorized_keys muss der Inhalt der Datei .ssh/id_rsa.pub kopiert werden.
+
 
 ### Zeitzone
 
@@ -282,14 +297,15 @@ Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.
     pm2 startup
     //Es wird ein Kommando erzeugt und das kopieren und ausführen
     cd /smartdisplay
-    pm2 start server/index.js -- 8000
+    pm2 start server/index.js -- --port=8000
     //Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
+    //Alle 15 Minuten (no-autorestart ist Wichtig): pm2 start twitterbot/bot.js --cron "\*/15 \* \* \* \*" --no-autorestart
     pm2 save
     </pre>
 
-*Achtung!* Ports unter 1024 gehen nicht.    
+***Achtung!*** Ports unter 1024 gehen nicht! Und es muss "Warten auf Netzwerk beim Booten" aktiviert sein!    
 
-Man kann die Permessions aktivieren über:
+Man kann die Permissions aktivieren über:
 
 !!! terminal "Terminal"
     <pre>
@@ -309,10 +325,26 @@ pm2 Befehle (komplett über pm2 -h):
 | Befehl | Beschreibung  |
 | --- | --- |
 | which | Pfad eines Programms ermitteln |
-| chmod u+w <file/path> | Datei/Pfad User darf auch schreiben (oder 755 Muster) |
+| chmod -R u+w <file/path> | Datei/Pfad User darf auch schreiben (oder 755 Muster) / -R recursive |
 | chown -R usr:grp <file/path> | Datei/Pfad Owner User usr und Gruppe grp setzen |
 | usermod -aG grp usr | Fügt den User usr zur Gruppe grp hinzu |
 | gpasswd -d usr grp | Löscht den User usr von der Gruppe grp |
+| df -h | Speicherplatz auf den Laufwerken anzeigen |
+
+### Chromium installieren bzw. deinstallieren
+
+Chromium Browser installieren bzw. deinstallieren.
+
+!!! terminal "Terminal - Chromium installieren"
+    <pre>sudo apt install chromium-browser -y</pre>
+
+!!! terminal "Terminal - Chromium deinstallieren"
+    <pre>
+    sudo apt-get remove chromium-browser
+    sudo dpkg -r chromium-browser
+    sudo rm -Rf /etc/chromium-browser
+    sudo rm -Rf ~/.config/chromium
+    </pre>
 
 ### Editor nano installieren
 

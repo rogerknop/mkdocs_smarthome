@@ -3,6 +3,8 @@ theme:
   name: material
   logo: 'img/site/logo.png'
   favicon: 'img/site/favicon.ico'
+  palette:
+    scheme: slate
   #not working - prev_next_buttons_location: none
 extra_css: [css/index.css]
 markdown_extensions:
