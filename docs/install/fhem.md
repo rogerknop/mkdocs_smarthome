@@ -340,13 +340,13 @@ Evtl. muss komplett neu angelegt werden
 * Nach Ins autocreate an und mit pairmode und 3 Sek Boost anlernen
 * AdA (Adaptierfahrt) per 2x kurz Boost erst nachdem wieder aufgeschraubt 
 
+### Wetterstation WS980Wifi
 
+<a href="../../attachments/Wetterstation_WS980WiFi_Bedienungsanleitung.pdf" target="_blank">Hier ist die Bedienungsanleitung hinterlegt!</a>
 
-
-
-### OneNote Tipps hier einbauen!!!
-
-
+Die Verbindung der Wetterstation in das WLAN erfolgt über die App *WS View*.  
+Die App funktioniert NUR unter Android!  
+Ausserdem muss im Fritz Router das 5 GHz WLAN deaktiviert werden, da sonst die App nicht funktioniert.
 
 ### FreeFileSync Backup
 
@@ -356,6 +356,8 @@ Die Verzeichnisse .alexa und .ssh müssen ausgeschlossen werden.
 In FreeFileSync sollte Fehler ignorieren bei Batch ausgewählt sein, sonst gibt es evtl. bei fehlenden Berechtigungen einen Abbruch. Z.B. kann die sync lock Datei nicht geschrieben werden – ist aber kein Problem.
 
 ### Modifikation Modul weekprofile für Homematic
+
+***Der Patch sollte ab jetzt in FHEM enthalten sein!***
 
 Weekprofile unterstützt zwar Homematic, aber da das Homematic Modul die Geräte unterschiedlich behandelt, gibt es wohl keine einheitliche Lösung. Daher muss für meine Heizungsthermostate eine Modifikation vorgenommen werden. Es dürfen im derzeitigen Knop Haus keine Präfixe verwendet werden.  
 &rarr; Modul: 98_weekprofile.pm  

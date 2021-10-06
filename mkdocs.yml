@@ -1,4 +1,5 @@
 site_name: Smarthome
+site_url: https://dieknops.de/smarthome/
 theme: 
   name: material
   logo: 'img/site/logo.png'

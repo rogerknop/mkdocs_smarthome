@@ -34,7 +34,7 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
     //Bzw. im Desktop
     startx</pre>
 Hostname / Autostart startx / Zeitzone / Locale / Tastatur / SSH – unter Interfacing Options usw.
-Hostname trotzdem auch wie in [Kapitel _Statische IP vergeben_](/install/raspi/#statische-ip-vergeben) beschrieben hostname in dhcpcd.conf anpassen.  
+Hostname trotzdem auch wie in [Kapitel _Statische IP vergeben_](#statische-ip-vergeben) beschrieben hostname in dhcpcd.conf anpassen.  
 Warten auf Netzwerk beim booten
 
 ### IP anzeigen
@@ -89,7 +89,7 @@ Geht inzwischen auch über Desktop!
 
 <a href="http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_Network.html" target="_blank">http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_Network.html</a>
 
-Die Netzwerkkonfiguration editieren wie in [Kapitel _Statische IP vergeben_](/install/raspi/#statische-ip-vergeben):
+Die Netzwerkkonfiguration editieren wie in [Kapitel _Statische IP vergeben_](#statische-ip-vergeben):
 
 !!! terminal "Terminal" 
     <pre>sudo nano /etc/dhcpcd.conf
@@ -157,7 +157,7 @@ Geht auch über Desktop in der Konfiguration!
     sudo apt-get install ssh 
     sudo /etc/init.d/ssh start
     </pre>
-~~sudo update-rc.d ssh defaults~~ Autostart beim Booten (alt) => gemäß [Kapitel _Konfigurationsmenü_](/install/raspi/#konfigurationsmenu) Interfaces aktivieren
+~~sudo update-rc.d ssh defaults~~ Autostart beim Booten (alt) => gemäß [Kapitel _Konfigurationsmenü_](#konfigurationsmenu) Interfaces aktivieren
 
 ***ACHTUNG!***
 Falls die IP schon mal von einem PC aus per SSH verbunden wurde per Putty oder VSCode, dann die IP Einträge aus der Datei **"%UserProfile%/.ssh/known_hosts"** entfernen
