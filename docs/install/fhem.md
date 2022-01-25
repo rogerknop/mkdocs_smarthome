@@ -133,6 +133,25 @@ Folgende Anpassung musste bei der letzten Neuinstallation trotzdem gemacht werde
     KNXD_OPTS="-f -t1023 -e 0.0.1 -E 0.0.2:8 -c -b ipt:192.168.1.11"
     </pre>
 
+### MQTT
+
+Nicht den internen FHEM MQTT Server aktivieren: Der blockiert FHEM!  
+Mosquitto installieren und aktivieren.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install mosquitto mosquitto-clients
+    sudo systemctl enable mosquitto.service
+
+    \# MQTT Server Test
+    sudo systemctl status mosquitto 
+
+    \# Start und Stop des Servers
+    sudo systemctl stop mosquitto 
+    sudo systemctl start mosquitto
+    </pre>
+
+
 ### Homematic
 
 Homematic ist ein eigenständiges System, was über die CCU gesteuert wird. Dieses System kann ebenfalls in FHEM eingebunden werden.  
@@ -147,19 +166,41 @@ Die CCU ist in unserem Netz unter IP 192.168.1.98 erreichbar.
 FHEM Homematic Best Practices gibt es hier: <a href="https://wiki.fhem.de/wiki/HMCCU_Best_Practice" target="_blank">https://wiki.fhem.de/wiki/HMCCU_Best_Practice</a>
  
 Geräte anlernen – siehe auch vorherigen Link Best Practices:  
-Auf das Homematic WebUI gehen und anlernen.  
+Auf das Homematic WebUI gehen und anlernen im Menü und am Device aktivieren. Im Posteingang erscheint dann leicht verzögert die Geräteanlage.
 Im Homematic WebUI einen eindeutigen Namen <devicename> ohne Umlaute und ohne Leerzeichen vergeben.  
 In FHEM cmd Gerät bekanntmachen und Details einlesen: 
 
 !!! fhem "FHEM Kommandos"
     <pre>
-    get ccu devicelist
-    get ccu deviceinfo FensterDachHinten
+    \# Bekanntmachen der Geräte in FHEM
+    get ccu ccuConfig
+    \# Geräte auflisten und in Address steht die ID
+    get ccu ccuDevices
+    \# Details zu einem Gerät lesen - nicht notwendig
+    get ccu deviceinfo <ID_aus_ccuDevices>
+    \# Device anlegen - Seite neu laden, damit des Device im Dropdown auftaucht
+    get ccu createDev <select_from_dropdown_or_devicename_aus_WebUICCU>
+    \# WICHTIG! Nach createDev nochmal 
+    get ccu ccuConfig
     </pre>
+
+Die Address/ID ist im Homematic WebUI in der Spalte *Address* im Ergebnis von get ccu ccuDevices zu sehen.  
+Das ist aber für die Anlage nicht mehr notwendig!
+
+Nun noch die Ergänzungen in der Config:  
 
 !!! fhem "fhem.cfg"
     <pre>
-    define <devicename> HMCCUDEV <id_aus_Homematic_WebUI>
+    attr <new_device> ccuflags showMasterReadings,showLinkReadings,showDeviceReadings
+    attr <new_device> userattr weekprofile
+    attr <new_device> weekprofile Temperatur_Weekprofile:default:<new_device_profil>
+    </pre>
+
+WICHTIG! Danach die Readings updaten:
+
+!!! fhem "FHEM Kommandos"
+    <pre>
+    get <new_device> config
     </pre>
 
 _Probleme:_  

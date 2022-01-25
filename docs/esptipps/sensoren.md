@@ -11,8 +11,9 @@ Der ESP kann auch am 220V Netz betrieben werden über die HI-LINK Power Sensoren
 
 __Achtung!!!__ Es gibt 2 Varianten für <a href="https://www.amazon.de/dp/B07V9JFTSQ/" target="_blank">3,5V (evtl. auch HLK-PM03)</a> und <a href="https://www.amazon.de/dp/B07V7GHK51/" target="_blank">5V (evtl. auch HLK-PM01)</a> Stromversorgung!
 
-Die Stromversorgung muss gegen Spannungsspitzen abgesichert werden.
-Hierzu ist ein Varistor geeignet: <a href="https://www.reichelt.de/at/de/varistor-rm-5-mm-250-v-10--epc-b72205-s-252-p239898.html" target="_blank">Reichelt Varistor B72205-S 25 (0,20€)</a>
+Die Stromversorgung muss gegen Spannungsspitzen abgesichert werden.  
+Einmal sollte ein Störfiltermodul (Spulen mit Transistoren) zur Stabilisierung vorgeschaltet werden: <a href="https://www.reichelt.de/at/de/entstoerfilter-pcb-montage-0-6-a-ffp-01-55002000-p124010.html?ACTION=3&GROUPID=7485&ARTICLE=124010&START=0&OFFSET=16&" target="_blank">Reichelt Entstörfilter PCB-Montage (4,24€)</a>  
+Hierzu ist zusätzlich ein Varistor geeignet: <a href="https://www.reichelt.de/at/de/varistor-rm-5-mm-250-v-10--epc-b72205-s-252-p239898.html" target="_blank">Reichelt Varistor B72205-S 25 (0,20€)</a>
 
 
 ### Strommessung
