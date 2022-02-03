@@ -29,5 +29,6 @@ nav:
   - Installation: 'install/esp.md'
   - Sensoren: 'esptipps/sensoren.md'
   - Tipps: 'esptipps/esp_tipps.md'
+- Elektronik: 'elektronik/elek_tipps.md'
 - KNX: 'install/knx.md'
 - Farblegende: 'install/legende.md'
