@@ -77,7 +77,7 @@ savedata 0
 Flag setzen "Enable Script". Am Besten mit DevTools offen, wegen Cache!
 
 Zähler IR mit der Handy Cam anschauen, dann sieht man das Blinken.
-Rechte LED blinkt.
+Wenn die rechte LED blinkt, dann muss das Kabel nach oben geführt werden.
 
 Watt Anzeige muss  freigeschaltet werden. Dazu benötigt man die SmartMeter Pin vom Energieversorger.  
 Einstellung mit Hilfe einer Taschenlampe.
