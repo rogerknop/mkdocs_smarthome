@@ -15,6 +15,11 @@ Die Stromversorgung muss gegen Spannungsspitzen abgesichert werden.
 Einmal sollte ein Störfiltermodul (Spulen mit Transistoren) zur Stabilisierung vorgeschaltet werden: <a href="https://www.reichelt.de/at/de/entstoerfilter-pcb-montage-0-6-a-ffp-01-55002000-p124010.html?ACTION=3&GROUPID=7485&ARTICLE=124010&START=0&OFFSET=16&" target="_blank">Reichelt Entstörfilter PCB-Montage (4,24€)</a>  
 Hierzu ist zusätzlich ein Varistor geeignet: <a href="https://www.reichelt.de/at/de/varistor-rm-5-mm-250-v-10--epc-b72205-s-252-p239898.html" target="_blank">Reichelt Varistor B72205-S 25 (0,20€)</a>
 
+### Hochlastrelais
+
+<a href="https://www.reichelt.de/at/de/varistor-rm-5-mm-250-v-10--epc-b72205-s-252-p239898.html" target="_blank">Leistungsrelais 30A - FIN 66.82.8 230V (13,50€)</a>
+
+![NodeMCU Wifi Typ 2](img/absaugung-2relais.jpg)
 
 ### Strommessung
 

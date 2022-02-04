@@ -25,32 +25,33 @@ __Achtung!!!__ Es gibt 2 Antennensteckerarten: _RP-SMA_ und _SMA_. Beim Kaufen a
 
 ### NodeMCU Typ 1
 
-![NodeMCU Wifi Typ 1](../../img/esp/wifi_antenne_typ1_1.jpg)
+![NodeMCU Wifi Typ 1](img/wifi_antenne_typ1_1.jpg)
 
-![NodeMCU Wifi Typ 1](../../img/esp/wifi_antenne_typ1_2.jpg)
+![NodeMCU Wifi Typ 1](img/wifi_antenne_typ1_2.jpg)
 
-![NodeMCU Wifi Typ 1](../../img/esp/wifi_antenne_typ1_3.jpg)
+![NodeMCU Wifi Typ 1](img/wifi_antenne_typ1_3.jpg)
 
 ### NodeMCU Typ 2
 
-![NodeMCU Wifi Typ 2](../../img/esp/wifi_antenne_typ2_1.jpg)
+![NodeMCU Wifi Typ 2](img/wifi_antenne_typ2_1.jpg)
 
-![NodeMCU Wifi Typ 2](../../img/esp/wifi_antenne_typ2_2.jpg)
+![NodeMCU Wifi Typ 2](img/wifi_antenne_typ2_2.jpg)
 
-![NodeMCU Wifi Typ 2](../../img/esp/wifi_antenne_typ2_3.jpg)
+![NodeMCU Wifi Typ 2](img/wifi_antenne_typ2_3.jpg)
 
 ## Stromzähler auslesen
 
-https://haus-automatisierung.com/hardware/2021/09/25/infrarot-lesekopf-stromzaehler.html  
-Volkszähler.de
+<a href="https://Volkszähler.de" target="_blank">Volkszähler.de</a>
+
+<a href="https://haus-automatisierung.com/hardware/2021/09/25/infrarot-lesekopf-stromzaehler.html" target="_blank">Lesekopf Stromzähler</a>
 
 Tasmota ohne eigene Entwicklungen! Daher nicht im eigneen Programmierungsverzeichnis.
 
 Wemos D1 Gehäuse https://www.thingiverse.com/thing:1768820
 
-EMH eHZM (im ersten ist ne ähnlich Folge Hex Werte wie im Script  
-https://emh-metering.com/wp-content/uploads/2021/02/eHZM-BIA-D-1-00.pdf  
-https://emh-metering.com/wp-content/uploads/2021/02/eHZM-DAB-D-1-00.pdf  
+EMH eHZM (im ersten ist ne ähnlich Folge Hex Werte wie im Script)  
+<a href="https://emh-metering.com/wp-content/uploads/2021/02/eHZM-BIA-D-1-00.pdf" target="_blank">https://emh-metering.com/wp-content/uploads/2021/02/eHZM-BIA-D-1-00.pdf</a>  
+<a href="https://emh-metering.com/wp-content/uploads/2021/02/eHZM-DAB-D-1-00.pdf" target="_blank">https://emh-metering.com/wp-content/uploads/2021/02/eHZM-DAB-D-1-00.pdf</a>    
 
 In Config Namen anpassen
 
