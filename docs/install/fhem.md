@@ -25,10 +25,12 @@ Inzwischen ist die Installation vereinfacht worden. Details gibt es hier: <a hre
 !!! terminal "Terminal"
     <pre>
     //Import repository gpg key:
-    sudo wget -qO - http://debian.fhem.de/archive.key | apt-key add -
+    wget -O- https://debian.fhem.de/archive.key | gpg --dearmor | sudo tee /usr/share/keyrings/debianfhemde-archive-keyring.gpg
 
-    //Add repository to /etc/apt/sources.list - Import / at the end:
-    sudo deb http://debian.fhem.de/nightly/ /
+    //Add repository to /etc/apt/sources.list - / at the end:
+    sudo nano /etc/apt/sources.list
+    //  Am Ende: 
+    deb [signed-by=/usr/share/keyrings/debianfhemde-archive-keyring.gpg] https://debian.fhem.de/nightly/ /
 
     //Update your package administration:
     sudo apt-get update
@@ -63,7 +65,7 @@ Auf dem NAS sollte es ein FHEM Verzeichnis mit der alten Installation geben. Die
 * Max Thermostate einmal die Temperatur ändern, dann werden sie kurz danach erkannt!
 * Max Thermostate müssen manchmal nach Änderungen von Manu auf Auto neu gesetzt werden
 
-### Berechtigungen & Aufräumen
+## Berechtigungen & Aufräumen
 
 Das eigene script rokscripts/cleanup ausführen. Dadurch werden Berechtigungen gesetzt und debug_info.txt wird geleert und alte log Files werden gelöscht. Für die Details am besten im Script nachschauen, welche Schritte durchgeführt werden.
 
@@ -77,7 +79,7 @@ Das Script als cron einplanen. Das bedeutet es wird regelmäßig ein Job gestart
 
 !!! terminal "Terminal"
     <pre>
-    crontab –e
+    crontab -e
     </pre>
 
 !!! file "crontab"
@@ -86,7 +88,7 @@ Das Script als cron einplanen. Das bedeutet es wird regelmäßig ein Job gestart
     30 0 * * FRI /bin/bash /opt/fhem/rokscripts/cleanup >/dev/null 2>&1
     </pre>
 
-### sendMail
+## sendMail
 
 Damit FHEM Mails verschicken kann, muss das Tool sendMail installiert werden:
 
@@ -96,7 +98,7 @@ Damit FHEM Mails verschicken kann, muss das Tool sendMail installiert werden:
     sudo apt-get install sendemail libio-socket-ssl-perl libnet-ssleay-perl perl
     </pre>
 
-### KNXD
+## KNXD
 
 Für die Anbindung von FHEM an das EIB/KNX Bussystem wird das Tool KNXD benötigt.  
 Die KNX Installation im Haus ist über ein Modul im Elektroschrank (BAOS) in das Netzwerk eingebunden (IP 192.168.1.11)
@@ -104,24 +106,10 @@ Weitere Infos hier: <a href="https://wiki.fhem.de/wiki/Knxd" target="_blank">htt
 
 ??? terminal "Terminal"
     <pre>
-    sudo apt-get install debhelper cdbs automake libtool libusb-1.0-0-dev git-core build-essential libsystemd-dev dh-systemd libev-dev cmake
-    //alt – evtl. Nicht mehr - sudo apt-get install autotools-dev autoconf pkg-config libsystemd-dev base-files libfmt3-dev
-    sudo git clone https://github.com/knxd/knxd.git
-    cd knxd
-    sudo git checkout deb
-    sudo dpkg-buildpackage -b -uc
-    cd ..
-    sudo dpkg -i knxd_*.deb knxd-tools_*.deb
-    sudo nano /etc/default/knxd
+    sudo apt-get install knxd knxd-tools
     </pre>
 
-!!! file "/etc/default/knxd"
-    <pre>
-    DAEMON_ARGS="-u /tmp/eib -u /var/run/knx -i -b ipt:192.168.1.11"
-    START_KNXD=YES
-    </pre>
-
-Folgende Anpassung musste bei der letzten Neuinstallation trotzdem gemacht werden, auch wenn es nicht im Wiki erwähnt wurde:
+Folgende Konfiguration anpassen:
 
 !!! terminal "Terminal"
     <pre>
@@ -133,7 +121,7 @@ Folgende Anpassung musste bei der letzten Neuinstallation trotzdem gemacht werde
     KNXD_OPTS="-f -t1023 -e 0.0.1 -E 0.0.2:8 -c -b ipt:192.168.1.11"
     </pre>
 
-### MQTT
+## MQTT
 
 Nicht den internen FHEM MQTT Server aktivieren: Der blockiert FHEM!  
 Mosquitto installieren und aktivieren.
@@ -152,7 +140,7 @@ Mosquitto installieren und aktivieren.
     </pre>
 
 
-### Homematic
+## Homematic
 
 Homematic ist ein eigenständiges System, was über die CCU gesteuert wird. Dieses System kann ebenfalls in FHEM eingebunden werden.  
 Wir verwenden es z.B. für die Prüfung, ob die Dachfenster geöffnet sind, oder Heizungsthermostate (höhere Reichweiter als MAX).  
@@ -209,7 +197,7 @@ Falls die Readings nicht automatisch aktualisiert werden, muss der rpcserver (De
 !!! fhem "FHEM Kommando"
     <pre>set ccu rpcserver on/off</pre>
 
-### Yamaha Boxen
+## Yamaha Boxen
 
 Die MusicCast Boxen von Yahama lassen sich in FHEM einbinden. Dazu ist ein weiteres Perl Paket notwendig:
 
@@ -218,7 +206,7 @@ Die MusicCast Boxen von Yahama lassen sich in FHEM einbinden. Dazu ist ein weite
     sudo apt-get install -y libnet-upnp-perl
     </pre>
 
-### Telegram
+## Telegram
 
 Der Messenger _telegram_ lässt sich in FHEM nutzen zum Senden und Empfangen von Nachrichten.
 
@@ -244,7 +232,7 @@ Dach wieder zurücksetzen:
     attr RogisBot allowUnknownContacts 0
     </pre>
 
-### Conbee II
+## Conbee II
 
 Mit dem USB Gateway können Aqara, Hue und ähnliche Geräte mit Zigbee Protokoll in FHEM eingebunden werden.  
 
@@ -316,7 +304,7 @@ Mit "_get deCONZ sensors_" wird die Sensoren Liste angezeigt und mit der ID kann
 
 Den Magic Cube muss man 2x pairen, da er für Kippen und Drehen je einen Sensor anlegt. Er erscheint dann nur einmal in der Phoscon App aber bei get sensors tauchen 2 auf.
 
-### Alexa
+## Alexa
 
 Alexa kann in FHEM zur Steuerung mit eingebunden werden: <a href="https://wiki.fhem.de/wiki/FHEM_Connector" target="_blank">https://wiki.fhem.de/wiki/FHEM_Connector</a>
 
@@ -330,7 +318,7 @@ Der ProxyKey muss bei Neuinstallation in <a href="https://alexa.amazon.com" targ
 
 Wenn es neue Alexa Geräte in FHEM gibt, dann muss der Alexa Server in FHEM WebUI neu gestartet werden und dann muss man unter <a href="https://alexa.amazon.com" target="_blank">https://alexa.amazon.com</a> neue Smarthome Geräte suchen.
 
-### Amazon Echo Geräte
+## Amazon Echo Geräte
 
 Hier können mit Hilfe des Moduls echodevice z.B. Texte auf den Echos ausgegeben werden: <a href="https://mwinkler.jimdo.com/smarthome/eigene-module/echodevice/" target="_blank">https://mwinkler.jimdo.com/smarthome/eigene-module/echodevice/</a>
  
@@ -360,7 +348,7 @@ Geräte anlegen mit:
     set echodevice autocreate_devices
     </pre>
 
-### MAX Gateway
+## MAX Gateway
 
 MAX Geräte werden nicht mehr hergestellt. Wir haben evtl. noch Heizungsthermostate im Einsatz (OG Bad und Vincent).  
 
@@ -381,7 +369,7 @@ Evtl. muss komplett neu angelegt werden
 * Nach Ins autocreate an und mit pairmode und 3 Sek Boost anlernen
 * AdA (Adaptierfahrt) per 2x kurz Boost erst nachdem wieder aufgeschraubt 
 
-### Wetterstation WS980Wifi
+## Wetterstation WS980Wifi
 
 <a href="../../attachments/Wetterstation_WS980WiFi_Bedienungsanleitung.pdf" target="_blank">Hier ist die Bedienungsanleitung hinterlegt!</a>
 
@@ -389,14 +377,27 @@ Die Verbindung der Wetterstation in das WLAN erfolgt über die App *WS View*.
 Die App funktioniert NUR unter Android!  
 Ausserdem muss im Fritz Router das 5 GHz WLAN deaktiviert werden, da sonst die App nicht funktioniert.
 
-### FreeFileSync Backup
+## FreeFileSync Backup
 
 Mit FreeFileSync komplettes Verzeichnis /opt/fhem sichern.  
 Aber nicht auf das Netzlaufwerk \\192... (beim letzten Mal ging \\192 doch) sondern auf R:\ und vorher verbinden mit pi User.  
 Die Verzeichnisse .alexa und .ssh müssen ausgeschlossen werden.  
 In FreeFileSync sollte Fehler ignorieren bei Batch ausgewählt sein, sonst gibt es evtl. bei fehlenden Berechtigungen einen Abbruch. Z.B. kann die sync lock Datei nicht geschrieben werden – ist aber kein Problem.
 
-### Modifikation Modul weekprofile für Homematic
+## VSCode einrichten für die FHEM Bearbeitung
+
+Auf dem Raspi muss NodeJS installiert sein!  
+VSCode installieren und die Extension Remote SSH.  
+STRG+SHIFT+P => neue Remote Verbindung anlegen:  
+
+* ssh pi@192.168.1.nnn -A
+* Fingerprint bestätigen
+* Passwort eingeben
+* Ordner wählen
+* Lokaler VSCode PC: Key in *.pub File in Folder: %userprofile%\\.ssh finden
+* Raspi: ~/.ssh/authorized_keys erstellen oder erweitern um den Key: ssh-rsa <key> aus dem .pub File
+
+## Modifikation Modul weekprofile für Homematic
 
 ***Der Patch sollte ab jetzt in FHEM enthalten sein!***
 

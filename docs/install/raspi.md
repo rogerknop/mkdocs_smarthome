@@ -33,7 +33,7 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
     <pre>sudo raspi-config 
     //Bzw. im Desktop
     startx</pre>
-Hostname / Autostart startx / Zeitzone / Locale / Tastatur / SSH – unter Interfacing Options usw.
+Hostname / Autostart startx / Zeitzone / Locale / Tastatur / SSH & VNC – unter Interfacing Options usw.
 Hostname trotzdem auch wie in [Kapitel _Statische IP vergeben_](#statische-ip-vergeben) beschrieben hostname in dhcpcd.conf anpassen.  
 Warten auf Netzwerk beim booten
 
@@ -46,11 +46,11 @@ Ermitteln der aktuellen IP im Netzwerk.
 
 ### Statische IP vergeben
 
-Geht inzwischen auch über Desktop!
+Geht inzwischen auch über Desktop! Rechtsklick auf die Netzwerkverbindung oben rechts und dann zu Einstellungen.
 
 Damit der Raspi im Netzwerk immer mit der gleichen IP angesprochen werden kann, muss eine statische IP vergeben werden. Der Router vergibt sonst unter Umständen nach einer gewissen Zeit eine neue IP.  
 Im Router muss ein Bereich für feste/ statische IPs eingetragen werden, der nicht über DNS vergeben wird. Aus diesem Bereich muss die statische IP gewählt werden.  
-_Achtung!_ In raspi-config -> Network Options -> network interface names muss predictable interface names disabled sein!
+_Achtung!_ In raspi-config -> Network Options -> network interface names muss predictable interface names disabled sein! Könnte veraltet sein.
 
 In diesem Beispiel wird die statische IP des Raspis auf 192.168.1.99 gesetzt.
 

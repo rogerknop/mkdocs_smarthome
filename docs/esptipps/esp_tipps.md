@@ -49,8 +49,8 @@ Tasmota ohne eigene Entwicklungen! Daher nicht im eigneen Programmierungsverzeic
 
 Wemos D1 Gehäuse https://www.thingiverse.com/thing:1768820
 
-EMH eHZM (im ersten ist ne ähnlich Folge Hex Werte wie im Script)  
-<a href="https://emh-metering.com/wp-content/uploads/2021/02/eHZM-BIA-D-1-00.pdf" target="_blank">https://emh-metering.com/wp-content/uploads/2021/02/eHZM-BIA-D-1-00.pdf</a>  
+EMH eHZM (im ersten PDF sind die Hex Werte wie im Script)  
+<a href="../../attachments/eHZM-BIA-D-1-00.pdf" target="_blank">https://emh-metering.com/wp-content/uploads/2021/02/eHZM-BIA-D-1-00.pdf</a>  
 <a href="https://emh-metering.com/wp-content/uploads/2021/02/eHZM-DAB-D-1-00.pdf" target="_blank">https://emh-metering.com/wp-content/uploads/2021/02/eHZM-DAB-D-1-00.pdf</a>    
 
 In Config Namen anpassen
@@ -80,7 +80,8 @@ Flag setzen "Enable Script". Am Besten mit DevTools offen, wegen Cache!
 Zähler IR mit der Handy Cam anschauen, dann sieht man das Blinken.
 Wenn die rechte LED blinkt, dann muss das Kabel nach oben geführt werden.
 
-Watt Anzeige muss  freigeschaltet werden. Dazu benötigt man die SmartMeter Pin vom Energieversorger.  
+Watt Anzeige muss freigeschaltet werden. Dazu benötigt man die SmartMeter Pin vom Energieversorger.  
 Einstellung mit Hilfe einer Taschenlampe.
+Die Anleitung steht auch in dem <a href="../../attachments/eHZM-BIA-D-1-00.pdf" target="_blank">eHZM-BIA-D-1-00.pdf!</a>
 
 Anbindung an FHEM über MQTT.
