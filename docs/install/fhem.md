@@ -139,6 +139,7 @@ Mosquitto installieren und aktivieren.
     sudo systemctl start mosquitto
     </pre>
 
+Monitor Tool für MQTT - MQTT Explorer (Win Installation oder Portable): <a href="http://mqtt-explorer.com/" target="_blank">http://mqtt-explorer.com/</a>
 
 ## Homematic
 

@@ -331,6 +331,24 @@ pm2 Befehle (komplett über pm2 -h):
 | gpasswd -d usr grp | Löscht den User usr von der Gruppe grp |
 | df -h | Speicherplatz auf den Laufwerken anzeigen |
 
+### Backup Image erstellen
+
+Als Voraussetzung muss das NAS gemounted sein. 
+
+Zuerst muss die Partition ermittelt werden:
+
+!!! terminal "Terminal - Chromium installieren"
+    <pre>sudo fdisk /dev/mmbcblk0
+    Key p => Listet die Partitionen (siehe ganz oben)
+    Key q => Beenden</pre>
+
+Dann kann mit der Partition die Image Erstellung getriggert werden (if=Partition / of=Pfad&File des zu erstellenden Images):
+
+!!! terminal "Terminal - Chromium installieren"
+    <pre>sudo dd if=/dev/mmcblk0 of=/nas/smartdisplay_backup_sdcard/raspi_image.img bs=1M</pre>
+
+Dies kann über eine Stunde dauern!
+
 ### Chromium installieren bzw. deinstallieren
 
 Chromium Browser installieren bzw. deinstallieren.
