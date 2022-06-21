@@ -24,7 +24,18 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
 !!! terminal "Terminal"
     <pre>
     sudo apt-get update
+    sudo apt full-upgrade
     sudo apt-get dist-upgrade
+    </pre>
+ 
+### Probleme analysieren
+
+!!! terminal "Terminal"
+    <pre>
+    dmesg
+    more /var/log/messages
+    more /var/log/syslog
+    more /var/log/kern.log
     </pre>
  
 ### Konfigurationsmenü  
