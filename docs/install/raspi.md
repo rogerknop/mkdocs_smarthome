@@ -37,6 +37,9 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
     more /var/log/syslog
     more /var/log/kern.log
     </pre>
+
+Gesammelte Infos auf der folgenden <a href="https://elinux.org/R-Pi_Troubleshooting" target="_blank">Wiki Seite</a>!
+
  
 ### Konfigurationsmenü  
 
