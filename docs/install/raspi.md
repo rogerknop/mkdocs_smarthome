@@ -268,7 +268,7 @@ Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzw
 !!! file "/etc/hostname"
     <pre>
     //192.168.1.111/kino    /kino    cifs    defaults,user=admin,password=admin,rw    0    0
-    //192.168.1.111/roger    /nas    cifs    defaults,user=admin,password=admin, x-systemd.automount,x-systemd.requires=network-online target,rw    0    0
+    //192.168.1.111/roger    /nas    cifs    defaults,user=admin,password=<NAS_PASSWORT>,x-systemd.automount,x-systemd.requires=network-online.target,rw    0    0
     </pre>
 _Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst nach Netzwerkverbindung versucht wird.
 

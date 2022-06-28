@@ -391,7 +391,7 @@ Auf dem Raspi muss NodeJS installiert sein!
 VSCode installieren und die Extension Remote SSH.  
 STRG+SHIFT+P => neue Remote Verbindung anlegen:  
 
-* ssh pi@192.168.1.nnn -A
+* pi@192.168.1.nnn
 * Fingerprint bestätigen
 * Passwort eingeben
 * Ordner wählen
