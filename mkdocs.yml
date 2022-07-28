@@ -24,6 +24,7 @@ nav:
 - Raspberry: 'install/raspi.md'
 - FHEM: 
   - Installation: 'install/fhem.md'
+  - Solar: 'fhemtipps/fhem_solar.md'
   - Tipps: 'fhemtipps/fhem_tipps.md'
 - ESP: 
   - Installation: 'install/esp.md'

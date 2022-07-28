@@ -30,6 +30,10 @@
 	curl "http://192.168.1.99:8083/fhem?cmd=set%20Arbeit.Licht.Decke%20on&XHR=1&fwcsrf="\`curl -s -D - 'http://192.168.1.99:8083/fhem?XHR=1' | awk '/X-FHEM-csrfToken/{print $2}' | tr -d "\r\n"`
 * Reading löschen: deletereading <device\> <reading\> 
 * Device umbenennen: rename <device\> <new_device_name\> 
+* Device anlegen: define <device>
+* Weblink htmlCode editieren
+    * list TYPE=weblink
+    * Klick auf Wert hinter "name"
 
 ### Dämmerung
 
