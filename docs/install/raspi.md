@@ -161,7 +161,9 @@ In _/etc/resolv.conf_ gleiche IP wie das Gateway eintragen:
     sudo nano /etc/resolv.conf
     </pre>
 
-### SSH aktivieren
+### SSH
+
+##### SSH aktivieren
 
 Damit der SSH Zugriff über das Tool Putty innerhalb des Netzwerks funktioniert, muss auf dem Raspi SSH aktiviert werden.
 
@@ -176,16 +178,77 @@ Geht auch über Desktop in der Konfiguration!
 ***ACHTUNG!***
 Falls die IP schon mal von einem PC aus per SSH verbunden wurde per Putty oder VSCode, dann die IP Einträge aus der Datei **"%UserProfile%/.ssh/known_hosts"** entfernen
 
-### SSH per Private und Public Key => keine Passwortabfrage in VSCode
-Es müssen zuerst auf dem Remote Rechner (Windows) im Homeverzeichnis die Dateien ~/.ssh/id_rsa und ~/.ssh/id_rsa.pub angelegt werden (sshgen)  
+##### SSH ohne Passwortabfrage für Zugriff von außerhalb
+
+Um den Zugriff von außerhalb des lokalen Netzes zu ermöglichen sollte aus Sicherheitsgründen die Passwortabfrage deaktivert werden und der Zugriff ausschließlich über Private und Public Key erfolgen.
+
+Dazu wird auf dem Client Rechner (z.B. Windows Bash) ein Schlüsselpaar erzeugt:
+!!! terminal "Terminal"
+    <pre>
+    \# Unbedingt Passphrase vergeben, da sonst Hacker leichtes Spiel haben!
+    ssh-keygen -t ed25519 -f /.ssh/dispi.ed25519 -C "Dispi Schlüssel"
+    </pre>
+
+Dabei gibt -t ed25519 ein modernes Verfahren für die Verschlüsselung an, die viel kürzer als die RSA Schlüssel sind.  
+Die erzeugte Datei mit einem sprechenden Namen belegen, so dass sie einfach wiedererkannt werden kann.  
+Der Kommentar hinter -C ist hilfreich für Tools, die den Public Key anzeigen.
+
+Der Public Key muss nun auf dem Server in ~/.ssh/authorhized_keys eingetragen werden:
+!!! terminal "Terminal"
+    <pre>
+    \# Datei anlegen und Berechtigung setzen
+    (umask 077 && test -d ~/.ssh || mkdir ~/.ssh)
+    (umask 077 && touch ~/.ssh/authorized_keys)
+
+    \# Kompletten Inhalt von dispi.ed25519.pub (Wichtig pub!!!) in die Datei authorized key in eine eigene Zeile kopieren und speichern
+    sudo nano ~/.ssh/authorized_keys
+
+    \# Auf dem Client testen (z.B. Windows Bash), ob Anmeldung nur mit Passphrase funktioniert
+    ssh -i ~/.ssh/dispi.ed25519 192.168.1.101
+    </pre>
+
+In der Datei /etc/ssh/ssh_config mit sudo nano folgende Einträge auf no setzen:
+!!! file "/etc/ssh/ssh_config"
+    <pre>
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    </pre>
+
+Danach den SSH Dienst neustarten, damit die Änderungen aktiv werden:
+!!! terminal "Terminal"
+    <pre>
+    systemctl restart ssh
+    </pre>
+
+***Achtung!!!*** 
+Der private Key muss dann unbedingt gesichert werden, da sonst bei Verlust kein Zugriff mehr auf den Server möglich ist!
+
+Der vereinfachte Zugriff auf den Server kann über Config Dateien erfolgen. Hierzu auf dem Client die Datei ~/.ssh/config anlegen.  
+Mehrere Hosts sind möglich!
+!!! file "%UserProfile%/.ssh/config"
+    <pre>
+    Host dispi
+        HostName 192.168.1.101
+        User pi
+        ForwardAgent yes
+        IdentityFile ~/.ssh/dispi.ed25519
+    </pre>
+
+Hierbei kann man auch mit Platzhaltern arbeiten, wie z.B. *Host \*.local* für alle Server im Netzwerk.
+
+Die SSH Verbindungen können ggf. auch mit einem FIDO2 Schlüssel gesichert werden. Hierzu wird ein Schlüssel mit ed25519-sk erstellt (Suche Internet).
+
+##### SSH ohne Passwortabfrage in VSCode
+
+Dies ist die Variante mit existierenden Keys ohne Deaktivierung der Passwort Eingabe und ohne Passphrase.  
+Daher auch weniger Sicherheit!  
+
+Es müssen zuerst auf dem Remote Rechner (Windows) im Homeverzeichnis die Private und Public Key Dateien ~/.ssh/id_rsa und ~/.ssh/id_rsa.pub angelegt werden (sshgen)  
 Dann muss auf dem Server das .ssh Verzeichnis mit der Datei authorized_key angelegt werden:
 
-```
-(umask 077 && test -d ~/.ssh || mkdir ~/.ssh)
-(umask 077 && touch ~/.ssh/authorized_keys)
-```
-In die Datei authorized_keys muss der Inhalt der Datei .ssh/id_rsa.pub kopiert werden.
+Berechtigung und Anlage auf dem Raspi: siehe vorheriges Kapitel!
 
+In die Datei authorized_keys muss der Inhalt der Datei .ssh/id_rsa.pub kopiert werden.
 
 ### Zeitzone
 

@@ -86,6 +86,9 @@ Das Script als cron einplanen. Das bedeutet es wird regelmäßig ein Job gestart
     <pre>
     \# Jeden Freitag um 0:30 den Job ausführen
     30 0 * * FRI /bin/bash /opt/fhem/rokscripts/cleanup >/dev/null 2>&1
+    
+    \# Reboot jeden Sonntag 3 Uhr
+    0 3 * * sun /sbin/shutdown -R now
     </pre>
 
 ## sendMail
