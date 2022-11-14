@@ -338,6 +338,108 @@ _Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst na
 !!! terminal "Terminal: _fstab neu einlesen_"
     <pre>sudo mount -a </pre>
 
+### SendMail über CLI
+
+msmtp unterstütz im Vergleich zu ssmtp über mehr Sicherheit und ermöglicht den Sender zu definieren.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install msmtp msmtp-mta mailutils
+    sudo nano /etc/msmtprc
+    \# Content siehe unten
+    sudo chown root:msmtp /etc/msmtprc
+    sudo chmod 640 /etc/msmtprc
+    </pre>
+
+??? file "/etc/msmtprc"
+    <pre>
+    \# A system wide configuration file is optional.
+    \# If it exists, it usually defines a default account.
+    \# This allows msmtp to be used like /usr/sbin/sendmail.
+    account roger@dieknops.de
+
+    \# The SMTP smarthost
+    host mail.dieknops.de
+
+    set_from_header on
+
+    \# Use TLS on port 587
+    port 587
+    tls on
+    tls_starttls on
+    tls_certcheck off
+
+    from roger@dieknops.de
+    auth on
+    user roger@dieknops.de
+    password <password\>
+
+    \# Set a default account
+    account default : roger@dieknops.de
+
+    \# Map local users to mail addresses (for crontab)
+    aliases /etc/aliases
+    </pre>    
+
+Das Versenden einer Mail über CLI erfolgt dann über:
+
+!!! terminal "Terminal"
+    <pre>
+    echo "Hello world email body!" | mail -s "Test Subject" roger.knop@sap.com
+    </pre>
+
+Um eine Datei zu versenden ist zusätzlich mpack erforderlich:
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install mpack
+    \# Versenden mit
+    sudo mpack -s "Test Subject" /etc/msmtprc roger.knop@sap.com
+    </pre>
+
+### OneDrive
+
+Es ist möglich (auch ohne Desktop) OneDrive auf dem Raspi zu installieren.  
+Alle Infos in GitHub unter <a href="https://github.com/abraunegg/onedrive" target="_blank">https://github.com/abraunegg/onedrive</a>
+
+***Achtung!*** Den URL Login nicht auf dem Firmenrechner und nicht auf dem IPad ausführen, sondern in einem anderen PC im Incognito Modus!
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt install onedrive
+    onedrive
+    \# URL in einen Browser kopieren, anmelden und dann die URL der leeren Seite als Response einfügen
+
+    \# Verzeichnisse definieren, die gesynct werden sollen: z.B. RaspiShare
+    \# Im Online muss unter geteilt über die 3 Punkte das Verzeichnis in eigene Dateien aufgenommen werden
+    nano .config/onedrive/sync_list
+    </pre>
+
+Vorgehensweise zum Austausch sollte sein:
+
+* Ein Verzeichnis in sync_list eintragen: z.B. RaspiShare (dran denken über Online OneDrive das Verzeichnis in eigene Dateien aufnehmen)
+* Sync ausführen: onedrive --synchronize
+* Änderungen durchführen und ggf. wieder Sync ausführen 
+
+CLI Options:
+
+* --synchronize --verbose --dry-run => Es werden keine Dateien kopiert oder gelöscht - nur erweiterte (verbose) Anzeige
+* --synchronize => Normaler Sync
+* --display-config => Konfiguration - Kann überschrieben werden
+* --resync => Sync, wenn keine Änderung war
+* --resync => Sync, wenn keine Änderung war
+
+Den Service kann man einplanen, aber aus Performancegründen würde ich empfehlen nur bei Bedarf zu synchen und auch nur ein Verzeichnis!
+
+!!! terminal "Terminal"
+    <pre>
+    \# Als Service - NICHT NOTWENDIG - Performance??? - Nur, wenn wirklich notwendig
+    systemctl enable onedrive@pi.service
+    systemctl start onedrive@pi.service
+    \# Logs
+    journalctl --unit=onedrive@pi -f
+    \# Deaktivieren mit stop und disable
+    </pre>
+
 ### NodeJS & NPM installieren
 
 <a href="https://github.com/nodesource/distributions/blob/master/README.md" target="_blank">Installations Infos</a>
@@ -407,6 +509,8 @@ pm2 Befehle (komplett über pm2 -h):
 | usermod -aG grp usr | Fügt den User usr zur Gruppe grp hinzu |
 | gpasswd -d usr grp | Löscht den User usr von der Gruppe grp |
 | df -h | Speicherplatz auf den Laufwerken anzeigen |
+| sudo du -xh / &#124; grep -P "G\t" | Speicherplatz der größten Folder |
+| ls -al /folder --block-size=M oder G | Folder in MB oder GB anzeigen |
 
 ### Backup Image erstellen
 
@@ -414,14 +518,14 @@ Als Voraussetzung muss das NAS gemounted sein.
 
 Zuerst muss die Partition ermittelt werden:
 
-!!! terminal "Terminal - Chromium installieren"
+!!! terminal "Terminal"
     <pre>sudo fdisk /dev/mmbcblk0
     Key p => Listet die Partitionen (siehe ganz oben)
     Key q => Beenden</pre>
 
 Dann kann mit der Partition die Image Erstellung getriggert werden (if=Partition / of=Pfad&File des zu erstellenden Images):
 
-!!! terminal "Terminal - Chromium installieren"
+!!! terminal "Terminal"
     <pre>sudo dd if=/dev/mmcblk0 of=/nas/smartdisplay_backup_sdcard/raspi_image.img bs=1M</pre>
 
 Dies kann über eine Stunde dauern!
@@ -437,6 +541,7 @@ Chromium Browser installieren bzw. deinstallieren.
     <pre>
     sudo apt-get remove chromium-browser
     sudo dpkg -r chromium-browser
+    sudo dpkg --purge chromium-browser
     sudo rm -Rf /etc/chromium-browser
     sudo rm -Rf ~/.config/chromium
     </pre>

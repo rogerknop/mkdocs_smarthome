@@ -1,5 +1,10 @@
 # FHEM Solar
 
+### ToDo
+
+* Device als Dummy und dann beim Change eigene Sachen programmieren, falls notwendig. Achtung der Status muss stimmen: https://forum.fhem.de/index.php/topic,117864.msg1237769.html#msg1237769
+* Vorschlagswerte von SolarForecast auslesen: https://forum.fhem.de/index.php/topic,117864.msg1234358/topicseen.html#msg1234358
+
 ### Übersicht
 
 PDF ABLEGEN!

@@ -101,6 +101,11 @@ Damit FHEM Mails verschicken kann, muss das Tool sendMail installiert werden:
     sudo apt-get install sendemail libio-socket-ssl-perl libnet-ssleay-perl perl
     </pre>
 
+Bei sendEmail handelt es sich nur um ein Script!  
+
+Problem ist, dass sendmail auf CLI Ebene den Absender nicht ändern kann. Das liegt am ssmtp und das ist auch veraltet.  
+Daher sollte msmtp verwendet werden! Dazu existiert ein extra Kapitel [SendMail über CLI](raspi.md#sendmail-uber-cli) unter Raspberry Installation.
+
 ## KNXD
 
 Für die Anbindung von FHEM an das EIB/KNX Bussystem wird das Tool KNXD benötigt.  
