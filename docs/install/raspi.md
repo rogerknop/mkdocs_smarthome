@@ -77,9 +77,11 @@ In diesem Beispiel wird die statische IP des Raspis auf 192.168.1.99 gesetzt.
 ??? file "/etc/dhcpcd.conf"
     <pre>
     hostname
-    berry
+    berry 
+    //falls leer wird der system hostname verwendet
+    //also nicht notwendig
 
-    interface
+    interface eth0 ODER wlan0
     static ip_address=192.168.1.99/24
     static routers=192.168.1.1
     static domain_name_servers=192.168.1.1 8.8.8.8
@@ -99,7 +101,7 @@ Keine Ahnung mehr, wo das Probleme verursacht hat!?
 
 ### WLAN
 
-Geht inzwischen auch über Desktop!
+Geht inzwischen auch über Desktop und über den Imager
 
 <a href="http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_Network.html" target="_blank">http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_Network.html</a>
 
@@ -250,6 +252,8 @@ Berechtigung und Anlage auf dem Raspi: siehe vorheriges Kapitel!
 
 In die Datei authorized_keys muss der Inhalt der Datei .ssh/id_rsa.pub kopiert werden.
 
+Bei einem neuen Raspi mit gleicher IP muss auf dem PC die Einträge für die IP aus .ssh/known_hosts gelöscht werden!
+
 ### Zeitzone
 
 !!! terminal "Terminal"
@@ -330,7 +334,6 @@ Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzw
     </pre>
 !!! file "/etc/hostname"
     <pre>
-    //192.168.1.111/kino    /kino    cifs    defaults,user=admin,password=admin,rw    0    0
     //192.168.1.111/roger    /nas    cifs    defaults,user=admin,password=<NAS_PASSWORT>,x-systemd.automount,x-systemd.requires=network-online.target,rw    0    0
     </pre>
 _Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst nach Netzwerkverbindung versucht wird.
@@ -456,9 +459,9 @@ Evtl. muss vorher das node Tool entfernt werden:
 !!! terminal "Terminal"
     <pre>
     //Update Package Manager auf die aktuellste Node Version
-    curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
     //Update Package Manager auf eine spezifische Node Version
-    curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+    curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
     sudo apt-get install -y nodejs
     </pre>
 
@@ -519,14 +522,17 @@ Als Voraussetzung muss das NAS gemounted sein.
 Zuerst muss die Partition ermittelt werden:
 
 !!! terminal "Terminal"
-    <pre>sudo fdisk /dev/mmbcblk0
+    <pre>
+    sudo fdisk -l
+    sudo fdisk /dev/mmbcblk0p2
     Key p => Listet die Partitionen (siehe ganz oben)
-    Key q => Beenden</pre>
+    Key q => Beenden
+    </pre>
 
 Dann kann mit der Partition die Image Erstellung getriggert werden (if=Partition / of=Pfad&File des zu erstellenden Images):
 
 !!! terminal "Terminal"
-    <pre>sudo dd if=/dev/mmcblk0 of=/nas/smartdisplay_backup_sdcard/raspi_image.img bs=1M</pre>
+    <pre>sudo dd if=/dev/mmcblk0p2 of=/nas/smartdisplay_backup_sdcard/raspi_image.img bs=1M</pre>
 
 Dies kann über eine Stunde dauern!
 
