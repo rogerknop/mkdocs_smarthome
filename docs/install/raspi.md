@@ -483,6 +483,9 @@ Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.
     //Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
     //Alle 15 Minuten (no-autorestart ist Wichtig): pm2 start twitterbot/bot.js --cron "\*/15 \* \* \* \*" --no-autorestart
     pm2 save
+
+    //Wichtig bei Erstinstallation und pm2 ohne sudo nutzen
+    sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
     </pre>
 
 ***Achtung!*** Ports unter 1024 gehen nicht! Und es muss "Warten auf Netzwerk beim Booten" aktiviert sein!    
