@@ -209,6 +209,23 @@ Falls die Readings nicht automatisch aktualisiert werden, muss der rpcserver (De
 !!! fhem "FHEM Kommando"
     <pre>set ccu rpcserver on/off</pre>
 
+## Pushover Nachrichten
+
+Hiermit können Nachrichten versendet werden mit Links, Bildern und Ablaufzeit: <a href="https://wiki.fhem.de/wiki/Pushover" target="_blank">https://wiki.fhem.de/wiki/Pushover</a>  
+Es muss ein Konto angelegt werden und die App (Android, Apple, Desktop) kostet einmalig 5€.  
+Viele Beispiele sind in der <a href="https://fhem.de/commandref_DE.html#Pushover" target="_blank">CommandRef</a>  
+Expire geht wohl nur in Verbindung mit retry!  
+Über cancel_id kann man evtl. ein Löschen der Nachricht für andere realisieren.
+
+!!! fhem "FHEM Kommando"
+    <pre>
+    define pushmsg Pushover <TOKEN> <USER>
+    set pushover msg Diese Nachricht hat einen Anhang! attachment="demolog/pictures/p1.jpg"
+    set pushover msg title="Betreff" message="Nachrichtentext und die Nachricht läuft nach 1 Stunde ab.\n2. Zeile und noch ein Link" url_title="Haussteuerung" action="http://192.168.1.99:8083/fhem?room=Wellness" expire=3600
+    set pushover msg Nur an ein Device! device="Rogis-iPhone"
+    set pushover msg Tonauswahl sound="falling"  \# https://pushover.net/api#sounds
+    </pre>
+
 ## Yamaha Boxen
 
 Die MusicCast Boxen von Yahama lassen sich in FHEM einbinden. Dazu ist ein weiteres Perl Paket notwendig:
