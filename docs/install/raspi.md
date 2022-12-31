@@ -24,8 +24,12 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
 !!! terminal "Terminal"
     <pre>
     sudo apt-get update
+    \# Kann keine neuen Pakete installieren und keine alten deinstallieren
     sudo apt full-upgrade
+    \# Kann neue installieren und alte deinstallieren UND neue Kernel Version
     sudo apt-get dist-upgrade
+    \# Simulation für dist-upgrade
+    sudo apt-get --simulate dist-upgrade
     </pre>
  
 ### Probleme analysieren
@@ -473,6 +477,8 @@ NPM wird automatisch installiert zusammen mit den neuen NodeJS Versionen.
 Autostart eines eigenen NodeJS Web Servers über das Tool pm2.  
 Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.  
 
+***ACHTUNG!!!*** Damit pm2 beim Booten ein Netzwerk hat muss in raspi-config unter System Options -> Network at Boot YES ausgewählt werden!
+
 !!! terminal "Terminal"
     <pre>
     sudo npm install -g pm2
@@ -485,7 +491,7 @@ Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.
     pm2 save
 
     //Wichtig bei Erstinstallation und pm2 ohne sudo nutzen
-    sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+    sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi --wait-ip
     </pre>
 
 ***Achtung!*** Ports unter 1024 gehen nicht! Und es muss "Warten auf Netzwerk beim Booten" aktiviert sein!    

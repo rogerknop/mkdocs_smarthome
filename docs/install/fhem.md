@@ -155,6 +155,9 @@ Homematic ist ein eigenständiges System, was über die CCU gesteuert wird. Dies
 Wir verwenden es z.B. für die Prüfung, ob die Dachfenster geöffnet sind, oder Heizungsthermostate (höhere Reichweiter als MAX).  
 Die CCU ist in unserem Netz unter IP 192.168.1.98 erreichbar.
 
+Die Doku für die Inbetriebname ist hier: <a href="https://wiki.fhem.de/wiki/HomeMatic" target="_blank">https://wiki.fhem.de/wiki/HomeMatic</a>  
+Man muss erst das CCU Device definieren und dann sind die Interfaces wichtig! Dadurch werden weitere Devices pro Interface (Bidcos, HM-IP usw.) angelegt.
+
 !!! terminal "Terminal"
     <pre>
     sudo apt-get update && sudo apt-get install -y librpc-xml-perl
