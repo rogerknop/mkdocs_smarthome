@@ -156,7 +156,7 @@ Wir verwenden es z.B. für die Prüfung, ob die Dachfenster geöffnet sind, oder
 Die CCU ist in unserem Netz unter IP 192.168.1.98 erreichbar.
 
 Die Doku für die Inbetriebname ist hier: <a href="https://wiki.fhem.de/wiki/HomeMatic" target="_blank">https://wiki.fhem.de/wiki/HomeMatic</a>  
-Man muss erst das CCU Device definieren und dann sind die Interfaces wichtig! Dadurch werden weitere Devices pro Interface (Bidcos, HM-IP usw.) angelegt.
+Man muss erst das CCU Device definieren und dann sind die Interfaces wichtig! Dadurch werden weitere Devices pro Interface (BidCos-RF, HmIP-RF usw.) angelegt.
 
 !!! terminal "Terminal"
     <pre>
