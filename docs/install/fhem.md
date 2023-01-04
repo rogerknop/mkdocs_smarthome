@@ -149,6 +149,20 @@ Mosquitto installieren und aktivieren.
 
 Monitor Tool für MQTT - MQTT Explorer (Win Installation oder Portable): <a href="http://mqtt-explorer.com/" target="_blank">http://mqtt-explorer.com/</a>
 
+Neue Devices anlegen über autocreate. Muss global UND am MQTT2_CLIENT UND am neuen Device gesetzt sein!  
+Autocreate ist aber nicht unbedingt notwendig.  
+
+!!! fhem "FHEM Kommandos"
+    <pre>
+    \# Device initial anlegen
+    define *devicename* MQTT2_DEVICE mqtt
+    \# Attribut autocreate für Device anlegen auf 1
+    \# MQTT Message triggern
+    \# Attribut autocreate deaktivieren =0
+    \# Falls attrTemplate existiert, dann verwenden - z.B. wled_control
+    \# Ansonsten readingList mit regex setzen - z.B. mqtt:wasserzaehler/main/json:.* { json2nameValue($EVENT);;;; } 
+    </pre>
+
 ## Homematic
 
 Homematic ist ein eigenständiges System, was über die CCU gesteuert wird. Dieses System kann ebenfalls in FHEM eingebunden werden.  
