@@ -15,3 +15,10 @@
 
 * Widerstand: R = U / I (Ω=V/A)
 * Watt: P = U * I (W=V*A)
+
+### Kabelquerschnitte
+
+* 0,75mm<sup>2</sup> => 12A
+* 1mm<sup>2</sup> => 15A
+* 1,5mm<sup>2</sup> => 18A
+* 2,5mm<sup>2</sup> => 26A
