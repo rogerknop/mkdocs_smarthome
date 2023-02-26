@@ -36,4 +36,5 @@ nav:
 - Elektronik: 'elektronik/elek_tipps.md'
 - KNX: 'install/knx.md'
 - Grandstream: 'grandstream/grandstream_install.md'
+- FritzBox: 'fritz/fritz.md'
 - Farblegende: 'install/legende.md'
