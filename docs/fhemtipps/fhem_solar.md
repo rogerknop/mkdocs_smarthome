@@ -27,7 +27,7 @@ PDF ABLEGEN!
     * FHEM Command Line: help SoloarForecast de => Hilfe
     * define SolarForecast SolarForecast
     * currentInverterDev: Tripower6 pv=SPOT_PACTOT:kW etotal=SPOT_ETODAY:W capacity=6000
-    * currentMeterDev: SMAHomeManager gcon=SMAEM3011953121_Bezug_Wirkleistung:W contotal=BezWirkZaehler:kWh gfeedin=-gcon feedtotal=SMAEM3011953121_Einspeisung_Wirkleistung_Zaehler:kWh
+    * currentMeterDev: SMAHomeManager gcon=SMAEM3011953121_Bezug_Wirkleistung:W contotal=BezWirkZaehler:kWh gfeedin=SMAEM3011953121_Einspeisung_Wirkleistung:W feedtotal=SMAEM3011953121_Einspeisung_Wirkleistung_Zaehler:kWh
     * currentBatteryDev: BoyStorage pin=POWER_IN:W pout=POWER_OUT:W intotal=SPOT_ETOTAL:Wh charge=ChargeStatus
     * inverterStrings: Westdach
     * moduleDirection Westdach=W
