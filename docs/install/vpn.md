@@ -1,10 +1,11 @@
 # VPN
 
-Entweder über die Fritzbox direkt den Wireguard VPN Zugang einrichten, oder einen Raspi als VPN Server nutzen.
+Entweder über die Fritzbox direkt den Wireguard VPN Zugang einrichten, oder einen Raspi als VPN Server nutzen.  
+Bei dem User gibt es unter VPN Einstellungen die relevanten Informationen für die Einrichtung.
 
 ## Wireguard VPN über Fritzbox
 
-OFFEN - Wireguard wird erst mit dem FritzOS Update Ende 22 unterstützt!
+Fritzbox User mit VPN anlegen. QR Code für Einrichtung wird dabei generiert und nur einmal angezeigt.
 
 ## Wireguard VPN über Raspberry
 
