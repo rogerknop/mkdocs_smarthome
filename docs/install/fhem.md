@@ -353,13 +353,20 @@ Alexa kann in FHEM zur Steuerung mit eingebunden werden: <a href="https://wiki.f
 
 sudo apt-get install nodejs npm
 sudo npm install -g alexa-fhem
-ProxyKey 39415AD3-D9A3F62F7C936B37-B4B4E601A294D088
 
 In FHEM cmd ermitteln mit: get alexa proxyKey
 
-Der ProxyKey muss bei Neuinstallation in <a href="https://alexa.amazon.com" target="_blank">https://alexa.amazon.com</a> neu gesetzt werden durch Skill deaktivieren, wieder aktivieren und anmelden.
+Der ProxyKey muss bei Neuinstallation in der Alexa App neu gesetzt werden durch Skill deaktivieren, wieder aktivieren und anmelden.
 
-Wenn es neue Alexa Geräte in FHEM gibt, dann muss der Alexa Server in FHEM WebUI neu gestartet werden und dann muss man unter <a href="https://alexa.amazon.com" target="_blank">https://alexa.amazon.com</a> neue Smarthome Geräte suchen.
+Wenn es neue Alexa Geräte in FHEM gibt, dann muss der Alexa Server in FHEM WebUI neu gestartet werden und dann muss man in der Alexa App neue Smarthome Geräte suchen:
+
+* Geräte
+* Oben rechts das Plus anklicken
+* Gerät hinzufügen
+* Ganz unten: Sonstiges
+* Wifi ausählen
+* Gerätesuche
+* Pro Gerät anklicken und einrichten
 
 ## Amazon Echo Geräte
 

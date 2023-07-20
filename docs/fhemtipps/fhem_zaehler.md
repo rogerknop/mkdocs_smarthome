@@ -8,22 +8,11 @@ Passende Gehäuse gibt es bei Thingiverse.
 * ESP32 mit Kamera OV2640
 * Klebestelle an der Linse wegkratzen und mit 2 Zangen die Linse um 1/4 Drehung gegen den Uhrzeigersinn (am Anfang kurz schwer bis der Leim sich komplett löst)
 * Links: 
-    * Hauptsseite: https://github.com/jomjol/AI-on-the-edge-device  
-    * Installation: https://github.com/jomjol/AI-on-the-edge-device/wiki/Installation 
-    * Firmware: https://github.com/jomjol/AI-on-the-edge-device/releases  
-* Python muss installiert sein
-* Download ZIP und entpacken
-* In den Ordner wechseln
-* ESP mit USB verbinden  
-
-!!! terminal "Terminal"
-    <pre>
-      cd firmware
-      pip install esptool
-      esptool.py erase_flash
-      esptool.py write_flash 0x01000 bootloader.bin 0x08000 partitions.bin 0x10000 firmware.bin
-    </pre>
-
+    * Hauptsseite: <a href="https://github.com/jomjol/AI-on-the-edge-device" target="_blank">https://github.com/jomjol/AI-on-the-edge-device</a>
+    * Installation: <a href="https://jomjol.github.io/AI-on-the-edge-device-docs/Installation/" target="_blank">https://jomjol.github.io/AI-on-the-edge-device-docs/Installation/</a> 
+    * Firmware: <a href="https://github.com/jomjol/AI-on-the-edge-device/releases" target="_blank">https://github.com/jomjol/AI-on-the-edge-device/releases</a>  
+    * Update über Menü und vorher zip runterladen: System -> OTA Update
+* Firmware am besten direkt über Web Installer installieren. Danach die Folgeschritte für SD Card durchführen.
 * SD Card (2GB) auf FAT32 formatieren
 * Folder sd-card: Dateien auf Root der SD Card kopieren
 * wlan.ini editieren und WLAN Informationen eintragen: ssid, WLAN Passwort, IP, Gateway, Netmask
