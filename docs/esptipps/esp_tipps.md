@@ -45,7 +45,7 @@ __Achtung!!!__ Es gibt 2 Antennensteckerarten: _RP-SMA_ und _SMA_. Beim Kaufen a
 
 <a href="https://haus-automatisierung.com/hardware/2021/09/25/infrarot-lesekopf-stromzaehler.html" target="_blank">Lesekopf Stromzähler</a>
 
-Tasmota ohne eigene Entwicklungen! Daher nicht im eigneen Programmierungsverzeichnis.
+Tasmota ohne eigene Entwicklungen! Daher nicht im eigneen Programmierungsverzeichnis: <a href="https://tasmota.github.io/docs/" target="_blank">https://tasmota.github.io/docs/</a>    
 
 Wemos D1 Gehäuse https://www.thingiverse.com/thing:1768820
 
