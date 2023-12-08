@@ -21,6 +21,9 @@ npm install
 git update-index assume-unchanged config/local.json
 ```
 
+Auf neuem Rechner .ssh/id_rsa und .pub erstellen.
+Inhalt von .pub auf FTP Server in .ssh/authorized_keys am Ende in neuer Zeile ergänzen. 
+
 # Konfiguration
 Die Default Einstellungen sind in config/default.json definiert.  
 Bei Bedarf können einzelne Attribute in der Datei config/local.json überschrieben werden.

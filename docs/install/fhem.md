@@ -434,7 +434,7 @@ Aber nicht auf das Netzlaufwerk \\192... (beim letzten Mal ging \\192 doch) sond
 Die Verzeichnisse .alexa und .ssh müssen ausgeschlossen werden.  
 In FreeFileSync sollte Fehler ignorieren bei Batch ausgewählt sein, sonst gibt es evtl. bei fehlenden Berechtigungen einen Abbruch. Z.B. kann die sync lock Datei nicht geschrieben werden – ist aber kein Problem.
 
-## VSCode einrichten für die FHEM Bearbeitung
+## VSCode einrichten für SSH Bearbeitung
 
 Auf dem Raspi muss NodeJS installiert sein!  
 VSCode installieren und die Extension Remote SSH.  
