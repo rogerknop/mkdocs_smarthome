@@ -25,8 +25,8 @@
     "json5": "^2.2.3"
   },
   "devDependencies": {
-    "fs-extra": "^8.1.0",
-    "node-ssh": "^6.0.0",
-    "ssh2-sftp-client": "^4.2.1"
+    "fs-extra": "^11.2.0",
+    "node-ssh": "^13.1.0",
+    "ssh2-sftp-client": "^9.1.0"
   }
 }
