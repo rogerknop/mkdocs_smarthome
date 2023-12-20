@@ -28,7 +28,7 @@ Die Konfiguration kann bearbeitet werden mit:
     sudo nano /etc/pivpn/wireguard/setupVars.conf
     </pre>
 
-Ein neues Device legt man an über ():
+Ein neues Device legt man an über:
 
 !!! terminal "Terminal"
     <pre>
@@ -62,11 +62,32 @@ Man kann einen QR Code für die Installation auf den jeweiligen Clients erzeugen
 
 Die Dateien können auch auf das Device (Windows, Android, iOS etc.) übertragen werden und können in den jeweiligen Wireguard Client importiert werden.
 
+## Raspberry Client installieren und einrichten
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt install wireguard
+    </pre>
+
+Die .conf Datei mit sudo in das Verzeichnis /etc/wireguard kopieren. Evtl. umbenennen in einen sprechenden Namen (z.B. vpn_praxis.conf).
+
+!!! terminal "Terminal - VPN Tunnel aktivieren"
+    <pre>
+    wg-quick up vpn_praxis
+    </pre>
+
+Nun steht die Verbindung und man kann z.B. mit ssh host auf den Remote Server zugreifen.
+
+!!! terminal "Terminal - VPN Tunnel stoppen"
+    <pre>
+    wg-quick down vpn_praxis
+    </pre>
+
 ## Router einrichten für VPN auf dem Raspberry
 
 Auf der Seite https://www.spdyn.de kann man einen DynDNS Weiterleitung einrichten - z.B. praxisbous.spdns.org.  
 Diese URL muss im Router als DynDNS eingetragen werden.  
-Als Custom URL für das Update der IP muss folgende URL verwendet werden: https://update.spdyn.de/nic/update?hostname=<domain>&myip=<ipaddr>&user=roger.knop@sap.com&pass=<password>
+Als Custom URL für das Update der IP muss folgende URL verwendet werden: https://update.spdyn.de/nic/update?hostname=[domain]&myip=[ipaddr]&user=roger.knop@sap.com&pass=[password]
 
 Falls es mit dem Router Probleme gibt, kann das Update auch über ein Bash Script auf dem Raspi erfolgen, was im Cron eingeplant wird.  
 Die eigene IP ermitteln über:

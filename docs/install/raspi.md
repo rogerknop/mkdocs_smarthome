@@ -333,14 +333,15 @@ Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzw
 !!! terminal "Terminal"
     <pre>
     sudo mkdir /kino
-    sudo mkdir /nas
+    mkdir /home/pi/nas
     sudo nano /etc/fstab
     </pre>
 !!! file "/etc/hostname"
     <pre>
-    //192.168.1.111/roger    /nas    cifs    defaults,user=admin,password=<NAS_PASSWORT>,x-systemd.automount,x-systemd.requires=network-online.target,rw    0    0
+    //192.168.1.111/roger    /home/pi/nas    cifs    defaults,user=admin,password=NAS_PASSWORT,gid=pi,uid=pi,x-systemd.automount,x-systemd.requires=network-online.target,rw    0    0
     </pre>
-_Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst nach Netzwerkverbindung versucht wird.
+_Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst nach Netzwerkverbindung versucht wird.  
+*gid* und *uid* sind User und Gruppe für das Verzeichnes bzgl. Zugriff. 
 
 !!! terminal "Terminal: _fstab neu einlesen_"
     <pre>sudo mount -a </pre>
