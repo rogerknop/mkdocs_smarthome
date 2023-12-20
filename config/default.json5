@@ -5,15 +5,15 @@
     "Deploy": {
         "hostname": "hostname",
         "user": "username",
-        "pathPrivateKeyRel2Home": "/.ssh/id_rsa",
-        "remotePath": "/httpdocs/site"
+        "pathPrivateKeyRel2Home": "\/.ssh\/id_rsa",
+        "remotePath": "\/httpdocs\/site"
     },
     // Konvertierung der PPTX mit Libreoffice oder Powershell/Powerpoint
     "Convert": {
         "active": false,
         "useLibreOffice": true,
         "LibreOffice": {
-            "cmdLibreOffice": "C:/Program Files/LibreOffice/program/soffice.exe"
+            "cmdLibreOffice": "C:\/Program Files\/LibreOffice\/program\/soffice.exe"
         },
         "PowerPoint": {
             "allSlides": true

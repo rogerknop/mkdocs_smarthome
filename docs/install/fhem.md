@@ -434,7 +434,7 @@ Aber nicht auf das Netzlaufwerk \\192... (beim letzten Mal ging \\192 doch) sond
 Die Verzeichnisse .alexa und .ssh müssen ausgeschlossen werden.  
 In FreeFileSync sollte Fehler ignorieren bei Batch ausgewählt sein, sonst gibt es evtl. bei fehlenden Berechtigungen einen Abbruch. Z.B. kann die sync lock Datei nicht geschrieben werden – ist aber kein Problem.
 
-## VSCode einrichten für die FHEM Bearbeitung
+## VSCode einrichten für die SSH Remote Bearbeitung
 
 Auf dem Raspi muss NodeJS installiert sein!  
 VSCode installieren und die Extension Remote SSH.  
@@ -447,29 +447,49 @@ STRG+SHIFT+P => neue Remote Verbindung anlegen:
 * Lokaler VSCode PC: Key in *.pub File in Folder: %userprofile%\\.ssh finden
 * Raspi: ~/.ssh/authorized_keys erstellen oder erweitern um den Key: ssh-rsa <key> aus dem .pub File
 
+Bei Problemen auf dem Raspi den Folder ~/.vscode-server löschen:
+!!! terminal "Terminal"
+    <pre>
+    rm -rf ~/.vscode-server
+    </pre>
+
 ## Modifikation Modul weekprofile für Homematic
 
-***Der Patch sollte ab jetzt in FHEM enthalten sein!***
+***Der Patch 1 ist bereits enthalten in FHEM!***
 
 Weekprofile unterstützt zwar Homematic, aber da das Homematic Modul die Geräte unterschiedlich behandelt, gibt es wohl keine einheitliche Lösung. Daher muss für meine Heizungsthermostate eine Modifikation vorgenommen werden. Es dürfen im derzeitigen Knop Haus keine Präfixe verwendet werden.  
 &rarr; Modul: 98_weekprofile.pm  
 &rarr; Routine: Sub weekprofile_sendDevProfile  
 &rarr; Im letzten Drittel (hinter Zeile 480)  
 
+Bei HM IP sieht das etwas anders auch und auch hier gab es Fehler: /index.php?topic=46117.705 Message #717  
+Daher wurde die 1 bei set config entfernt und aus dem Präfix ein Substring entfernt.
+
 ??? file "98_weekprofile.pm"
     <pre>
     ...
     } elsif ($type =~ /HMCCU.*/){ 
         $cmd .= "set $device config" if ($type eq "HMCCU_HM");
-        $cmd .= "set $device config 1" if ($type eq "HMCCU_IP");
+        #CHANGED: device oder 1 geht nicht
+        #$cmd .= "set $device config 1" if ($type eq "HMCCU_IP"); #Neuer Fehler
+        $cmd .= "set $device config" if ($type eq "HMCCU_IP");     #Neuer Fehler    
         my $k=0;
         my $dayCnt = scalar(@dayToTransfer);
         my $prefix = weekprofile_get_prefix_HM($device,"ENDTIME_SUNDAY_1",$me);
-        <b># no prefix by set see topic,46117.msg1104569.html#msg1104569
-        $prefix = "" if ($type eq "HMCCU_HM");</b>
+        #CHANGED: Präfix ist R-P1_ aber das R- darf nicht mitgeschickt werden
+        #no prefix by set see topic, /index.php?topic=46117 #695
+        #$prefix = "" if ($type eq "HMCCU_HM");
+        <br>
+        if ($type eq "HMCCU_IP") {
+          $prefix =~ s/R-//; #Neuer Fehler
+        }
+        else {
+          $prefix = ""; # always no prefix by set #msg1113658
+        }
+        <br>
         if (!defined($prefix)) {
-        Log3 $me, 3, "$me(sendDevProfile): no prefix found"; 
-        $prefix = ""; 
+          Log3 $me, 3, "$me(sendDevProfile): no prefix found"; 
+          $prefix = ""; 
         }
     ...
     </pre>
