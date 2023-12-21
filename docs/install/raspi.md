@@ -346,6 +346,13 @@ _Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst na
 !!! terminal "Terminal: _fstab neu einlesen_"
     <pre>sudo mount -a </pre>
 
+Ist ein Tunnel aufgebaut, dann kann man auch direkt ein Remote NAS mounten:
+
+!!! terminal "Terminal"
+    <pre>
+    sudo mount -t cifs -o username=admin,password=[Password],uid=pi,gid=pi //192.168.2.33/Mitarbeiterdokumente /home/pi/nas_praxis
+    </pre>
+
 ### SendMail über CLI
 
 msmtp unterstütz im Vergleich zu ssmtp über mehr Sicherheit und ermöglicht den Sender zu definieren.
@@ -512,6 +519,64 @@ pm2 Befehle (komplett über pm2 -h):
 | del <nr> | Löscht Prozess Nr <nr> |
 | save | Speichert den aktuellen Stand ab |
 
+### RSYNC Synchronisation
+
+Über ssh kann man rsync auch nutzen, was hilfreich ist, wenn man einen VPN Tunnel aufbaut.
+rsync -avzhe ssh backup.tar.gz root@192.168.0.141:/backups/
+
+#### Vorbereitung
+
+1. Tunnel konfigurieren
+2. mkdir /home/pi/nas_praxis
+3. Lokales nas Backup Folder mounten unter /home/pi/remote_backups
+
+!!! file "/etc/fstab"
+    <pre>
+    //192.168.1.111/remote_backups    /home/pi/remote_backups    cifs    defaults,user=admin,password=[Password],gid=pi,uid=pi,x-systemd.automount,x-systemd.requires=network-online.target,rw    0   >
+    </pre>
+
+#### Script Erstellung
+
+!!! file "~/backup_scripts/backup_praxis_mitarbeiterdocs.sh"
+    <pre>
+    \#!/bin/bash
+
+    echo "***********************************************************"
+    echo "BACKUP Praxis Admin"
+
+    \#VPN Tunnel aufbauen
+    echo ""
+    echo "-----> Tunnel aufbauen"
+    wg-quick up vpn_praxis
+
+    \#Remote NAS mounten
+    echo ""
+    echo "-----> Remote NAS mounten"
+    sudo mount -t cifs -o username=admin,password=,uid=pi,gid=pi //192.168.2.33/Mitarbeiterdokumente /home/pi/nas_praxis
+
+    \#Remote Verzeichnis spiegeln
+    echo ""
+    echo "-----> Remote Verzeichnis spiegeln"
+    rsync -qzar --delete /home/pi/nas_praxis/ /home/pi/remote_backups/praxis/mitarbeiterdokumente
+
+    \#Remote NAS unmounten
+    echo ""
+    echo "-----> Remote NAS unmounten"
+    sudo umount /home/pi/nas_praxis
+
+    \#VPN Tunnel schliessen
+    echo ""
+    echo "-----> Tunnel schliessen"
+    wg-quick down vpn_praxis
+
+    echo ""
+    echo "BACKUP ENDE"
+    echo "***********************************************************"
+    </pre>
+
+Mit chmod +x ~/backup_scripts/backup_praxis_mitarbeiterdocs.sh ausführbar machen!  
+Und dann die Scripte nach Wunsch im cron einplanen.
+
 ### Hilfreiche Befehle
 
 | Befehl | Beschreibung  |
@@ -524,6 +589,7 @@ pm2 Befehle (komplett über pm2 -h):
 | df -h | Speicherplatz auf den Laufwerken anzeigen |
 | sudo du -xh / &#124; grep -P "G\t" | Speicherplatz der größten Folder |
 | ls -al /folder --block-size=M oder G | Folder in MB oder GB anzeigen |
+| history \| grep [Suchbegriff] | History nach bestimmten Wort durchsuchen |
 
 ### Backup Image erstellen
 
