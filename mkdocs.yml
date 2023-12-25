@@ -18,12 +18,15 @@ markdown_extensions:
 - pymdownx.details
 - toc:
     permalink: True
+plugins:
+- drawio_file
 nav: 
 - Home: 'index.md'
 - Architektur: 'architektur/index.md'
 - Raspberry:
   - Installation: 'install/raspi.md'
   - VPN: 'install/vpn.md'
+  - Docker: 'install/docker.md'
 - FHEM: 
   - Installation: 'install/fhem.md'
   - Solar: 'fhemtipps/fhem_solar.md'

@@ -8,7 +8,8 @@ Dieses Framework erstellt Internetseite auf Basis von Konfiguration und Markdown
 Python & pip Installieren: https://www.python.org/downloads/  
 Prüfen, ob Phython im Path steht: python --version & pip --version
 
-Hier die Schritte für die Installation. Der letzte git Befehl bewirkt, dass die lokalen Einstellungen nicht gepusht werden:
+Hier die Schritte für die Installation. Der letzte git Befehl bewirkt, dass die lokalen Einstellungen nicht gepusht werden
+WICHTIG! Shell muss als Admin ausgeführt werden:
 ```
 pip install --upgrade pip
 pip install mkdocs
@@ -16,6 +17,7 @@ pip install mkdocs-material
 pip install mkdocs-material-extensions  //-----> Icons Übersicht https://petershaggynoble.github.io/MDI-Sandbox/
 pip install pymdown-extensions  //-----> Extensions e.g. Strikethrough, Latex Formeln usw.
 pip install toc //-----> Creates Permalinks or Anchors for header
+pip install mkdocs-drawio-file
 git clone https://github.com/rogerknop/mkdocs_smarthome.git
 npm install
 git update-index assume-unchanged config/local.json
