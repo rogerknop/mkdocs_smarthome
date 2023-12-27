@@ -577,6 +577,38 @@ rsync -avzhe ssh backup.tar.gz root@192.168.0.141:/backups/
 Mit chmod +x ~/backup_scripts/backup_praxis_mitarbeiterdocs.sh ausführbar machen!  
 Und dann die Scripte nach Wunsch im cron einplanen.
 
+Zum Beispiel die Praxis Sicherung jeden Freitag 22 Uhr mit einem separaten Logfile mit Timestamp im Format 2023-12-29_22:00
+
+!!! file "crontab -e"
+    <pre>
+    00 22 * * 5 /bin/bash /home/pi/backup_script/backup_praxis_mitarbeiterdocs.sh > /home/pi/backup_script/logs/praxis_backup_\`date +\%Y-\%m-\%d_\%H:\%M\`.log 2>&1
+    </pre>
+
+### PM2 - NodeJS Job (auch für reboot)
+
+  * Mit sudo davor ist eine andere Liste! Für fancontrol.js siehe sudo pm2 l 
+  * pm2 l => listet aktive nodejs jobs mit id
+  * pm2 stop [id] => stoppt aktiven job mit der id
+  * pm2 start [id] => startet aktiven job mit der id
+  * pm2 start test.js --cron "*/15 * * * *" --no-autorestart => Startet node test.js alle 15 Minuten / no-autorestart ist WICHTIG!!!
+  * pm2 startup, start und save siehe Internet mit Logging OneNote
+  * pm2 save ist wichtig! Sonst werden keine Änderungen (z.B. del usw.) übernommen
+  * Ventilator muss über sudo gestartet werden, da gpio sudo Rechte benötigt
+
+Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
+
+***Achtung!*** Ports unter 1024 gehen nicht
+
+Ports für lokale Server unter 1024 aktivieren: sudo setcap 'cap_net_bind_service=+ep' \`which node\` (ACHTUNG Backslash nur für md Anzeige)
+
+Debugging:
+
+  * pm2 del 0 => Webserver Port 8000 löschen
+  * npm run debug => Webserver im Debug Mode auf 3000 öffnen
+  * Browser auf Dispi (VNC) öffnen
+  * F12 und grünes NodeJS Icon klicken
+  * Methode this.globals.waitForDebugSession() verwenden, um auf den Debugger zu warten
+
 ### Hilfreiche Befehle
 
 | Befehl | Beschreibung  |

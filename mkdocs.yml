@@ -20,6 +20,7 @@ markdown_extensions:
     permalink: True
 plugins:
 - drawio_file
+- search
 nav: 
 - Home: 'index.md'
 - Architektur: 'architektur/index.md'
