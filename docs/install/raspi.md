@@ -524,6 +524,11 @@ pm2 Befehle (komplett über pm2 -h):
 Über ssh kann man rsync auch nutzen, was hilfreich ist, wenn man einen VPN Tunnel aufbaut.
 rsync -avzhe ssh backup.tar.gz root@192.168.0.141:/backups/
 
+Der Fortschritt bei rsync wird über --info=progress2 angezeigt.  
+Hierbei zeigt ir-chk=1029/30621 den Fortschritt des Incremental Scans an. 1029 von 30621 Dateien sind noch zu prüfen. 
+Am Anfang steigen beide Zahlen stetig.
+Am Ende ändert sich die Anzeige in to-chk, wenn keine Incremental Scans mehr kommen. Dann nimmt nur noch die erste Zahl ab.
+
 #### Vorbereitung
 
 1. Tunnel konfigurieren
@@ -541,6 +546,8 @@ rsync -avzhe ssh backup.tar.gz root@192.168.0.141:/backups/
     <pre>
     \#!/bin/bash
 
+    sudo umount /home/pi/nas_praxis
+
     echo "***********************************************************"
     echo "BACKUP Praxis Admin"
 
@@ -557,11 +564,12 @@ rsync -avzhe ssh backup.tar.gz root@192.168.0.141:/backups/
     \#Remote Verzeichnis spiegeln
     echo ""
     echo "-----> Remote Verzeichnis spiegeln"
-    rsync -qzar --delete /home/pi/nas_praxis/ /home/pi/remote_backups/praxis/mitarbeiterdokumente
+    rsync -zar --delete --info=progress2 --stats /home/pi/nas_praxis/ /home/pi/remote_backups/praxis/mitarbeiterdokumente
 
     \#Remote NAS unmounten
     echo ""
     echo "-----> Remote NAS unmounten"
+    sleep 20
     sudo umount /home/pi/nas_praxis
 
     \#VPN Tunnel schliessen
@@ -608,6 +616,32 @@ Debugging:
   * Browser auf Dispi (VNC) öffnen
   * F12 und grünes NodeJS Icon klicken
   * Methode this.globals.waitForDebugSession() verwenden, um auf den Debugger zu warten
+
+### Bash History Search 
+
+Es ist besser das Tool hstr zu installieren mit Alias hh.  
+Über die Pfeiltasten auswählen und mit TAB übernehmen zum Ändern, oder mit ENTER um direkt auszuführen.
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install hstr
+    \# Konfiguration in .bashrc übernehmen (z.B. Alias hh)
+    hstr --show-configuration >> ~/.bashrc
+    \# Neue Bash Shell öffnen
+    hh [Suchstring]
+    </pre>
+
+Default mäßig kommt eine Suche mit.  
+Damit die Forwardsuche funktioniert vorher ```stty -ixon``` eingeben!
+
+!!! terminal "Terminal"
+    <pre>
+    CTRL-r
+    Suchstring
+    CTRL-r weiter zurück suchen
+    \# Wieder forward Suche
+    CTRL-s
+    </pre>
 
 ### Hilfreiche Befehle
 
