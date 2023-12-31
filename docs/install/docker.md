@@ -64,6 +64,65 @@ Settings URL anpassen: Environment -> local -> Public IP: 192.168.x.x
 
 ### Paperless
 
+https://docs.paperless-ngx.com/setup/
+
+Auf der Setup Seite wird PostgeSQL empfohlen.
+
+Setup Script in /home/pi ausführen:
+
+!!! terminal "Terminal"
+    <pre>
+    bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)"
+    </pre>
+
+Default Werte nutzen im Setup wie z.B. DB (Postgres) - ausser:
+
+* OCR language: deu
+* User ID: pi
+* User Group: pi
+* Folder
+    * Consume: /home/pi/nas/paperless/consume
+    * Media: /home/pi/nas/paperless/media
+    * Data: /home/pi/nas/paperless/data
+    * DB: /home/pi/nas/paperless/db
+* User: pi
+* Passowort: [RaspiPasswort]
+
+Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
+
+FOLGENDES LIEF NICHT
+
+
+!!! terminal "Terminal"
+    <pre>
+    git clone https://github.com/paperless-ngx/paperless-ngx
+    cd paperless-ngx
+    cp docker/compose/docker-compose.postgres.yml docker-compose.yml
+    cp docker/compose/docker-compose.env docker-compose.env
+    </pre>
+
+In Datei docker-compose.yml den "image" Tag löschen und auf den lokalen "context" ändern:
+
+!!! file "~/paperless-ngx/docker-compose.yml"
+    <pre>
+    \# Find
+    webserver:
+        image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    \# Replace with
+    webserver:
+        build:
+            context: .
+    </pre>
+
+docker-compose.env
+user passwort pi raspipasswort
+
+TODO:
+
+* Verzeichnisse mappen aufs NAS unter Roger
+* NAS und dann wird es automatisch gesichert?
+* Wie Postgres sichern?
+
 
 ### Kopia
 
@@ -127,9 +186,19 @@ Repository:
 * Repo Passwort = [RASPI PASSWORT]
 * Name: Rogis Backup
 
-Policies:
+Sicherung erstellen => Policies mit Folder und Button "Set Policy":
 
 * /remote_backups/praxis/mitarbeiterdokumente
+* /nas/Sicherung/wiebke/Themen
+
+Einplanung Job => Scheduling - Cron Expressions: 0 6 * * 4 #Jeden Donnerstag 6 Uhr
+
+Mit den folgenden Retentions (wieviel aufheben): 
+
+* Latest: 5
+* Monthly: 6
+* Annual: 2
+* Rest: 0
 
 
 ## PraxMan (lokal)

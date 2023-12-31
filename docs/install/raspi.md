@@ -589,7 +589,14 @@ Zum Beispiel die Praxis Sicherung jeden Freitag 22 Uhr mit einem separaten Logfi
 
 !!! file "crontab -e"
     <pre>
-    00 22 * * 5 /bin/bash /home/pi/backup_script/backup_praxis_mitarbeiterdocs.sh > /home/pi/backup_script/logs/praxis_backup_\`date +\%Y-\%m-\%d_\%H:\%M\`.log 2>&1
+    \# Praxis Mitarbeiterdokumente Sicherung: Jeden Freitag 22 Uhr
+    00 22 * * 5 /bin/bash /home/pi/backup_script/backup_praxis_mitarbeiterdocs.sh > /home/pi/backup_script/logs/praxis_backup_`date +\%Y-\%m-\%d_\%H:\%M`.log 2>&1
+    \#
+    \# Helmi Bidirect Sicherung: Jeden 1. Dienstag im Monat um 22 Uhr
+    #0 22 1-7 * 2 /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_`date +\%Y-\%m-\%d_\%H:\%M`.log 2>&1
+    \#
+    \# Helmi Bidirect Sicherung: Alle 2 Wochen am Dienstag um 22 Uhr
+    0 22 * * Tue [ $(expr $(date +%W) % 2) -eq 1 ] && /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_`date +\%Y-\%m-\%d_\%H:\%M`.log 2>&1
     </pre>
 
 ### PM2 - NodeJS Job (auch für reboot)
@@ -654,6 +661,7 @@ Damit die Forwardsuche funktioniert vorher ```stty -ixon``` eingeben!
 | gpasswd -d usr grp | Löscht den User usr von der Gruppe grp |
 | df -h | Speicherplatz auf den Laufwerken anzeigen |
 | sudo du -xh / &#124; grep -P "G\t" | Speicherplatz der größten Folder |
+| ncdu /folder | Treesize für Folder |
 | ls -al /folder --block-size=M oder G | Folder in MB oder GB anzeigen |
 | history \| grep [Suchbegriff] | History nach bestimmten Wort durchsuchen |
 
