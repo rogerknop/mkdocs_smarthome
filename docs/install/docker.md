@@ -78,8 +78,8 @@ Setup Script in /home/pi ausführen:
 Default Werte nutzen im Setup wie z.B. DB (Postgres) - ausser:
 
 * OCR language: deu
-* User ID: pi
-* User Group: pi
+* User ID: unverändert auf 1000
+* User Group: unverändert auf 1000
 * Folder
     * Consume: /home/pi/nas/paperless/consume
     * Media: /home/pi/nas/paperless/media
@@ -90,36 +90,8 @@ Default Werte nutzen im Setup wie z.B. DB (Postgres) - ausser:
 
 Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
 
-FOLGENDES LIEF NICHT
-
-
-!!! terminal "Terminal"
-    <pre>
-    git clone https://github.com/paperless-ngx/paperless-ngx
-    cd paperless-ngx
-    cp docker/compose/docker-compose.postgres.yml docker-compose.yml
-    cp docker/compose/docker-compose.env docker-compose.env
-    </pre>
-
-In Datei docker-compose.yml den "image" Tag löschen und auf den lokalen "context" ändern:
-
-!!! file "~/paperless-ngx/docker-compose.yml"
-    <pre>
-    \# Find
-    webserver:
-        image: ghcr.io/paperless-ngx/paperless-ngx:latest
-    \# Replace with
-    webserver:
-        build:
-            context: .
-    </pre>
-
-docker-compose.env
-user passwort pi raspipasswort
-
 TODO:
 
-* Verzeichnisse mappen aufs NAS unter Roger
 * NAS und dann wird es automatisch gesichert?
 * Wie Postgres sichern?
 
