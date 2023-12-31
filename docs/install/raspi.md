@@ -519,6 +519,29 @@ pm2 Befehle (komplett über pm2 -h):
 | del <nr> | Löscht Prozess Nr <nr> |
 | save | Speichert den aktuellen Stand ab |
 
+  * Mit sudo davor ist eine andere Liste! Für fancontrol.js siehe sudo pm2 l 
+  * pm2 l => listet aktive nodejs jobs mit id
+  * pm2 stop [id] => stoppt aktiven job mit der id
+  * pm2 start [id] => startet aktiven job mit der id
+  * pm2 start test.js --cron "*/15 * * * *" --no-autorestart => Startet node test.js alle 15 Minuten / no-autorestart ist WICHTIG!!!
+  * pm2 startup, start und save siehe Internet mit Logging OneNote
+  * pm2 save ist wichtig! Sonst werden keine Änderungen (z.B. del usw.) übernommen
+  * Ventilator muss über sudo gestartet werden, da gpio sudo Rechte benötigt
+
+Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
+
+***Achtung!*** Ports unter 1024 gehen nicht
+
+Ports für lokale Server unter 1024 aktivieren: sudo setcap 'cap_net_bind_service=+ep' \`which node\` (ACHTUNG Backslash nur für md Anzeige)
+
+Debugging:
+
+  * pm2 del 0 => Webserver Port 8000 löschen
+  * npm run debug => Webserver im Debug Mode auf 3000 öffnen
+  * Browser auf Dispi (VNC) öffnen
+  * F12 und grünes NodeJS Icon klicken
+  * Methode this.globals.waitForDebugSession() verwenden, um auf den Debugger zu warten
+
 ### RSYNC Synchronisation
 
 Über ssh kann man rsync auch nutzen, was hilfreich ist, wenn man einen VPN Tunnel aufbaut.
@@ -590,39 +613,14 @@ Zum Beispiel die Praxis Sicherung jeden Freitag 22 Uhr mit einem separaten Logfi
 !!! file "crontab -e"
     <pre>
     \# Praxis Mitarbeiterdokumente Sicherung: Jeden Freitag 22 Uhr
-    00 22 * * 5 /bin/bash /home/pi/backup_script/backup_praxis_mitarbeiterdocs.sh > /home/pi/backup_script/logs/praxis_backup_`date +\%Y-\%m-\%d_\%H:\%M`.log 2>&1
+    00 22 * * 5 /bin/bash /home/pi/backup_script/backup_praxis_mitarbeiterdocs.sh > /home/pi/backup_script/logs/praxis_backup_\`date +\%Y-\%m-\%d_\%H:\%M\`.log 2>&1
     \#
     \# Helmi Bidirect Sicherung: Jeden 1. Dienstag im Monat um 22 Uhr
-    #0 22 1-7 * 2 /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_`date +\%Y-\%m-\%d_\%H:\%M`.log 2>&1
+    \#0 22 1-7 * 2 /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_\`date +\%Y-\%m-\%d_\%H:\%M\`.log 2>&1
     \#
     \# Helmi Bidirect Sicherung: Alle 2 Wochen am Dienstag um 22 Uhr
-    0 22 * * Tue [ $(expr $(date +%W) % 2) -eq 1 ] && /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_`date +\%Y-\%m-\%d_\%H:\%M`.log 2>&1
+    0 22 * * Tue [ $(expr $(date +%W) % 2) -eq 1 ] && /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_\`date +\%Y-\%m-\%d_\%H:\%M\`.log 2>&1
     </pre>
-
-### PM2 - NodeJS Job (auch für reboot)
-
-  * Mit sudo davor ist eine andere Liste! Für fancontrol.js siehe sudo pm2 l 
-  * pm2 l => listet aktive nodejs jobs mit id
-  * pm2 stop [id] => stoppt aktiven job mit der id
-  * pm2 start [id] => startet aktiven job mit der id
-  * pm2 start test.js --cron "*/15 * * * *" --no-autorestart => Startet node test.js alle 15 Minuten / no-autorestart ist WICHTIG!!!
-  * pm2 startup, start und save siehe Internet mit Logging OneNote
-  * pm2 save ist wichtig! Sonst werden keine Änderungen (z.B. del usw.) übernommen
-  * Ventilator muss über sudo gestartet werden, da gpio sudo Rechte benötigt
-
-Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
-
-***Achtung!*** Ports unter 1024 gehen nicht
-
-Ports für lokale Server unter 1024 aktivieren: sudo setcap 'cap_net_bind_service=+ep' \`which node\` (ACHTUNG Backslash nur für md Anzeige)
-
-Debugging:
-
-  * pm2 del 0 => Webserver Port 8000 löschen
-  * npm run debug => Webserver im Debug Mode auf 3000 öffnen
-  * Browser auf Dispi (VNC) öffnen
-  * F12 und grünes NodeJS Icon klicken
-  * Methode this.globals.waitForDebugSession() verwenden, um auf den Debugger zu warten
 
 ### Bash History Search 
 
@@ -664,6 +662,13 @@ Damit die Forwardsuche funktioniert vorher ```stty -ixon``` eingeben!
 | ncdu /folder | Treesize für Folder |
 | ls -al /folder --block-size=M oder G | Folder in MB oder GB anzeigen |
 | history \| grep [Suchbegriff] | History nach bestimmten Wort durchsuchen |
+
+### SD Karte vergrößern
+
+* Win32 Diskimager Tool verwenden und von SD Karte Image auf PC erstellen
+* Neue größer Karte mit dem Image erstellen
+* Raspi mit der neuen Karten booten und prüfen. Achtung! df liefert noch die alte Größe
+* Partition erweitern mit ```sudo raspi-config --expand-rootfs``` 
 
 ### Backup Image erstellen
 
