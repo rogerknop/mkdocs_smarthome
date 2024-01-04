@@ -139,6 +139,7 @@ Dadurch entsteht auch eine Sicherung auf Helmis NAS.
 * App: QuickScan mit WebDAV - Evtl. reicht auch die Paperless App
 * App: Paperless für Apple und Android
 * Inbox Dokumente Prüfen (z.B. Typ, Korrespondent, Datum, Tags) - Am Ende Inbox Tag entfernen
+* Alte Docs aufräumen, über Dokumente Filter: ASN (leer/nicht leer), Jahr vor n, Alle auswählen, Löschen
 
 #### QR Codes und ASN
 
