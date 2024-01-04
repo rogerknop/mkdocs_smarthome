@@ -106,6 +106,9 @@ Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
     \# Verzeichnisstruktur und Dateinamen anpassen
     environment:
         PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_year}-{created_month}-{created_day}-{asn}-{title}"
+        PAPERLESS_CONSUMER_ENABLE_BARCODES=true # enable search for barcodes
+        PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE=true # enable setting ASN by ASN barcodes
+        PAPERLESS_CONSUMER_BARCODE_SCANNER=xxx # switch from pyzbar to zxing for better recognition
     docker compose up -d
     </pre>
 
