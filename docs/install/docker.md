@@ -64,6 +64,8 @@ Settings URL anpassen: Environment -> local -> Public IP: 192.168.x.x
 
 ### Paperless
 
+#### Installation
+
 https://docs.paperless-ngx.com/setup/
 
 Auf der Setup Seite wird PostgeSQL empfohlen.
@@ -84,17 +86,75 @@ Default Werte nutzen im Setup wie z.B. DB (Postgres) - ausser:
     * Consume: /home/pi/nas/paperless/consume
     * Media: /home/pi/nas/paperless/media
     * Data: /home/pi/nas/paperless/data
-    * DB: /home/pi/nas/paperless/db
+    * DB: ENTER Default - nix ändern wegen Berechtigungsproblemen
 * User: pi
 * Passowort: [RaspiPasswort]
 
 Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
 
-TODO:
+#### Anpassungen
 
-* NAS und dann wird es automatisch gesichert?
-* Wie Postgres sichern?
+##### Folder Struktur
 
+!!! terminal "Terminal"
+    <pre>
+    docker compose down
+    docker-compose.yml anpassen:
+    \# Volume Export auf NAS umstellen
+    volumes:
+        - /home/pi/nas/paperless/export:/usr/src/paperless/export
+    \# Verzeichnisstruktur und Dateinamen anpassen
+    environment:
+        PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_year}-{created_month}-{created_day}-{asn}-{title}"
+    docker compose up -d
+    </pre>
+
+Falls Filename Format geändert wurde - bestehenden Datenbestand anpassen:
+
+!!! terminal "Terminal"
+    <pre>
+    docker compose -f /home/pi/paperless-ngx/docker-compose.yml exec -T webserver document_renamer
+    </pre>
+
+##### Inbox Tag erstellen: ToDo
+
+##### User Anzeigename und Mail von pi anpassen
+
+#### Backup
+
+Verzeichnis ../export ist auf dem NAS unter (nas/paperless/export).  
+Dadurch entsteht auch eine Sicherung auf Helmis NAS.
+
+!!! terminal "Terminal"
+    <pre>
+    \# Manuell
+    docker compose exec -T webserver document_exporter ../export
+    \# Cron Job 
+    \# Jeden Montag Dienstag Morgen 3 Uhr
+    0 3 * * Tue docker compose -f /home/pi/paperless-ngx/docker-compose.yml exec -T webserver document_exporter ../export/
+    </pre>
+
+#### Ablauf
+
+* App: QuickScan mit WebDAV - Evtl. reicht auch die Paperless App
+* App: Paperless für Apple und Android
+* Inbox Dokumente Prüfen (z.B. Typ, Korrespondent, Datum, Tags) - Am Ende Inbox Tag entfernen
+
+#### QR Codes und ASN
+
+* AVERY Zweckform L4731
+* Online Creator: https://tobiasmaier.info/asn-qr-code-label-generator/
+* CLI Generator installieren: pip install paperless-asn-qr-codes
+* CLI Generator verwenden:
+    * paperless-asn-qr-codes -h => Parameter StartASN und Output pdf
+    * paperless-asn-qr-codes 1 paperless.pdf
+
+Evtl. Integeration in Paperless: https://github.com/paperless-ngx/paperless-ngx/discussions/4588
+
+#### ToDo
+
+* Export / Import prüfen
+* Alle Dokumente eines Jahres löschen ohne ASN - geht das?
 
 ### Kopia
 
