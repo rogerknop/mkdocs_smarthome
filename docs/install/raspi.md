@@ -32,7 +32,7 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
     sudo apt-get --simulate dist-upgrade
     </pre>
  
-### Probleme analysieren
+### Probleme analysieren & Resource Monitoring
 
 !!! terminal "Terminal"
     <pre>
@@ -44,7 +44,19 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
 
 Gesammelte Infos auf der folgenden <a href="https://elinux.org/R-Pi_Troubleshooting" target="_blank">Wiki Seite</a>!
 
- 
+Tools, die im Terminal verwendbar sind: 
+
+!!! terminal "Terminal"
+    <pre>
+    \# Ähnlich Taskmanager in Windows MIT Interaktion - Sortierung per Klick
+    sudo apt-get install htop   -   Oft schon vorinstalliert!
+    htop
+    \# Ähnlich Taskmanager in Windows aber ohne Interaktion sortiert nach Memory oder CPU
+    top -o %MEM oder %CPU
+    \# Memory in MB und alle 2 Sekunden auffrischen
+    free -m -s 2
+    </pre>
+
 ### Konfigurationsmenü  
 
 !!! terminal "Terminal"
@@ -713,6 +725,98 @@ Dieser Terminal Editor ist einfacher zu bedienen, als der VI, aber trotzdem noch
 
 !!! terminal "Terminal"
     <pre>sudo apt-get install nano</pre>
+
+Für ALT Taste in Kitty/Putty das Keyboard unter "Terminal - Keyboard - Function Keys" auf "xterm*" ändern.
+
+Nano Cheatssheet: <a href="https://www.nano-editor.org/dist/latest/cheatsheet.html" target="_blank">https://www.nano-editor.org/dist/latest/cheatsheet.html</a>
+
+
+File handling
+
+* Ctrl+S  Save current file
+* Ctrl+O	Offer to write file ("Save as")
+* Ctrl+R	Insert a file into current one
+* Ctrl+X	Close buffer, exit from nano
+
+Editing
+
+* Ctrl+K   	Cut current line into cutbuffer
+* Alt+6	Copy current line into cutbuffer
+* Ctrl+U	Paste contents of cutbuffer
+* Alt+T	Cut until end of buffer
+* Ctrl+]	Complete current word
+* Alt+3	Comment/uncomment line/region
+* Alt+U	Undo last action
+* Alt+E	Redo last undone action
+
+Search and replace
+
+* Ctrl+Q   	Start backward search
+* Ctrl+W	Start forward search
+* Alt+Q	Find next occurrence backward
+* Alt+W	Find next occurrence forward
+* Alt+R	Start a replacing session
+
+Deletion
+
+* Ctrl+H	Delete character before cursor      
+* Ctrl+D	Delete character under cursor
+* Alt+Bsp	Delete word to the left
+* Ctrl+Del   	Delete word to the right
+* Alt+Del	Delete current line
+
+Operations
+
+* Ctrl+T   	Execute some command
+* Ctrl+J	Justify paragraph or region
+* Alt+J	Justify entire buffer
+* Alt+B	Run a syntax check
+* Alt+F	Run a formatter/fixer/arranger
+* Alt+:	Start/stop recording of macro
+* Alt+;	Replay macro
+
+Moving around
+
+* Ctrl+B   	One character backward
+* Ctrl+F	One character forward
+* Ctrl+←	One word backward
+* Ctrl+→	One word forward
+* Ctrl+A	To start of line
+* Ctrl+E	To end of line
+* Ctrl+P	One line up
+* Ctrl+N	One line down
+* Ctrl+↑	To previous block
+* Ctrl+↓	To next block
+* Ctrl+Y	One page up
+* Ctrl+V	One page down
+* Alt+\	To top of buffer
+* Alt+/	To end of buffer
+
+Special movement
+
+* Alt+G    	Go to specified line
+* Alt+]	Go to complementary bracket
+* Alt+↑	Scroll viewport up
+* Alt+↓	Scroll viewport down
+* Alt+<	Switch to preceding buffer
+* Alt+>	Switch to succeeding buffer
+
+Information
+
+* Ctrl+C   	Report cursor position
+* Alt+D	Report line/word/character count
+* Ctrl+G	Display help text
+
+Various
+
+* Alt+A	Turn the mark on/off
+* Tab	Indent marked region
+* Shift+Tab   	Unindent marked region
+* Alt+V	Enter next keystroke verbatim
+* Alt+N	Turn line numbers on/off
+* Alt+P	Turn visible whitespace on/off
+* Alt+X	Hide or unhide the help lines
+* Ctrl+L	Refresh the screen
 
 ### Deutsche Tastatur im Terminal
 
