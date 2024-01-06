@@ -10,26 +10,17 @@
     sudo sh ./get-docker.sh --dry-run
     \# Install docker
     sudo sh ./get-docker.sh
-
     \# pi User der Docker Gruppe hinzufügen
     sudo usermod -aG docker pi
-    </pre>
-
-!!! terminal "Terminal - Docker-Compose Installation"
-    <pre>
-    \# Python3 mit Abhängigkeiten
-    sudo apt install libffi-dev libssl-dev python3-dev python3 python3-pip
-    \# Docker-compose
-    sudo pip3 install docker-compose
-
     \# Reboot Raspi
-    reboot raspi now
-
+    sudo reboot now
     \# Testen, ob Dienst aktiviert
     docker run hello-world
     \# Ansonsten aktivieren
     sudo systemctl enable docker
     </pre>
+
+Das Programm docker-compose wird nun über docker compose aufgerufen!
 
 ## Kommandos
 
@@ -55,7 +46,7 @@ Beim ersten Start User anlegen (Passwort muss mindestens 12 Zeichen lang sein): 
 
 Dann in den Settings:
 
-* Session Liftime: 1 year
+* Session Lifetime: 1 year
 * Password rule: 6 characters
 
 Im Account oben rechts das Passwort ändern, so dass Raspi Login und Portainer Login identisch.
@@ -159,6 +150,7 @@ Dadurch entsteht auch eine Sicherung auf Helmis NAS.
 * CLI Generator verwenden:
     * paperless-asn-qr-codes -h => Parameter StartASN und Output pdf
     * paperless-asn-qr-codes 1 paperless.pdf
+    ACHTUNG! Beim PDF Druck darauf achten, dass keine Größenanpassung durchgeführt wird. Also "Actual Size" verwenden.
 
 Evtl. Integeration in Paperless: https://github.com/paperless-ngx/paperless-ngx/discussions/4588
 

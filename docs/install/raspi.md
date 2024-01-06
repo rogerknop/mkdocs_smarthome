@@ -76,6 +76,20 @@ Ermitteln der aktuellen IP im Netzwerk.
 
 ### Statische IP vergeben
 
+Seit bookwarm Release wird der Network Manager verwendet:
+
+!!! terminal "Terminal"
+    <pre>
+    sudo nmcli con show
+    sudo nmcli con mod "Wired connection 1" ipv4.addresses "192.168.1.88/24"
+    sudo nmcli con mod "Wired connection 1" ipv4.gateway "192.168.1.1"
+    sudo nmcli con mod "Wired connection 1" ipv4.dns "8.8.8.8,192.168.1.1"
+    sudo nmcli con mod "Wired connection 1" ipv4.method manual
+    sudo nmcli con mod "Wired connection 1" connection.autoconnect yes
+    \# Ohne Reboot aktivieren
+    sudo nmcli con up "Wired connection 1"
+    </pre>
+
 Geht inzwischen auch über Desktop! Rechtsklick auf die Netzwerkverbindung oben rechts und dann zu Einstellungen.
 
 Damit der Raspi im Netzwerk immer mit der gleichen IP angesprochen werden kann, muss eine statische IP vergeben werden. Der Router vergibt sonst unter Umständen nach einer gewissen Zeit eine neue IP.  
@@ -124,10 +138,11 @@ Geht inzwischen auch über Desktop und über den Imager
 Die Netzwerkkonfiguration editieren wie in [Kapitel _Statische IP vergeben_](#statische-ip-vergeben):
 
 !!! terminal "Terminal" 
-    <pre>sudo nano /etc/dhcpcd.conf
-    
+    <pre>
     //Alte Versionen:
-    /etc/network/interfaces)</pre>
+    sudo nano /etc/dhcpcd.conf
+    /etc/network/interfaces
+    </pre>
 
 ??? file "/etc/dhcpcd.conf - Dynamische IP"
     <pre>
@@ -272,6 +287,8 @@ Bei einem neuen Raspi mit gleicher IP muss auf dem PC die Einträge für die IP 
 
 ### Zeitzone
 
+Geht auch über raspi-config.
+
 !!! terminal "Terminal"
     <pre>sudo dpkg-reconfigure tzdata</pre>
 Europe und Berlin auswählen
@@ -342,6 +359,11 @@ Dadurch kann man die FHEM Konfiguration in die automatische Sicherung mit einbin
 Mit Mounten kann man andere Netzwerklaufwerke in den Raspi einbinden, damit man darauf zugreifen kann.  
 Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzwerk zugreifen.
 
+ACHTUNG!!! Unter Bookworm war am Anfang ein Fehler, dass beim Reboot kein mount durchgeführt wird und immer auch ein Hinweis beim Mountbefehl.  
+Hier ist ein Script zur Behebung: https://forums.raspberrypi.com/viewtopic.php?t=362156#p2172794  
+Hat nicht richtig funktioniert, bzw. weiss ich nicht genau, ob es was bewirkt hat.  
+In fstab habe ich x-systemd.automount rausgeschmissen.
+
 !!! terminal "Terminal"
     <pre>
     sudo mkdir /kino
@@ -350,6 +372,7 @@ Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzw
     </pre>
 !!! file "/etc/hostname"
     <pre>
+    \# ACHTUNG!!! Evtl. ohne x-systemd.automount ab Bookworm
     //192.168.1.111/roger    /home/pi/nas    cifs    defaults,user=admin,password=NAS_PASSWORT,gid=pi,uid=pi,x-systemd.automount,x-systemd.requires=network-online.target,rw    0    0
     </pre>
 _Anmerkung:_ Die x-systemd Sachen sind notwendig, dass mount beim Booten erst nach Netzwerkverbindung versucht wird.  
@@ -572,6 +595,7 @@ Am Ende ändert sich die Anzeige in to-chk, wenn keine Incremental Scans mehr ko
 
 !!! file "/etc/fstab"
     <pre>
+    \# ACHTUNG!!! Evtl. ohne x-systemd.automount ab Bookworm
     //192.168.1.111/remote_backups    /home/pi/remote_backups    cifs    defaults,user=admin,password=[Password],gid=pi,uid=pi,x-systemd.automount,x-systemd.requires=network-online.target,rw    0   >
     </pre>
 

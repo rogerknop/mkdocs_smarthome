@@ -67,6 +67,8 @@ Die Dateien können auch auf das Device (Windows, Android, iOS etc.) übertragen
 !!! terminal "Terminal"
     <pre>
     sudo apt install wireguard
+    \# Evtl. bei Fehlermeldung in wg-quick up muss resolvconf manuell installiert werden
+    sudo apt-get install resolvconf
     </pre>
 
 Die .conf Datei mit sudo in das Verzeichnis /etc/wireguard kopieren. Evtl. umbenennen in einen sprechenden Namen (z.B. vpn_praxis.conf).

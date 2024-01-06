@@ -30,6 +30,13 @@ Inhalt von .pub auf FTP Server in .ssh/authorized_keys am Ende in neuer Zeile er
 Die Default Einstellungen sind in config/default.json definiert.  
 Bei Bedarf können einzelne Attribute in der Datei config/local.json überschrieben werden.
 
+# User htpasswd
+
+https://www.ruhr-uni-bochum.de/system/tools/htpasswd
+GEHT NICHT! - https://htpasswdgenerator.de/
+
+Passwort generieren und in docs/install/htpasswd eintragen.
+
 # Python Probleme
 * Falls Berechtigungsfehler: pip Befehle um --user erweitern
 * Gegebenenfalls Verzeichnis site-packages in %appdata%\Python\Python37\ löschen
@@ -43,7 +50,7 @@ npm run convert => Powerpoint Slides in JPG exportieren
 npm run convertdeploy => Volles Programm: Convert, Build und Deploy
 ```
 
-# Slides in Bilder konvertieren
+# Slides in Bilder konvertieren - IN ZUKUNFT NUR NOCH DrawIO!
 Es sollte pro PPTX nur ein Slide existieren, damit beide Konvertierungsvarianten verwendet werden können.
 
 ## PPTX convert
