@@ -61,6 +61,8 @@ https://docs.paperless-ngx.com/setup/
 
 Auf der Setup Seite wird PostgeSQL empfohlen.
 
+***ACHTUNG!!!*** Wenn auf dem NAS schon ein paperless Verzeichnis existiert, dann dieses in paperless-old umbenennen, um später den export Folder von dort verwenden für den Import.
+
 Setup Script in /home/pi ausführen:
 
 !!! terminal "Terminal"
@@ -153,11 +155,6 @@ Dadurch entsteht auch eine Sicherung auf Helmis NAS.
     ACHTUNG! Beim PDF Druck darauf achten, dass keine Größenanpassung durchgeführt wird. Also "Actual Size" verwenden.
 
 Evtl. Integeration in Paperless: https://github.com/paperless-ngx/paperless-ngx/discussions/4588
-
-#### ToDo
-
-* Export / Import prüfen
-* Alle Dokumente eines Jahres löschen ohne ASN - geht das?
 
 ### Kopia
 

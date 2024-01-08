@@ -37,6 +37,7 @@ nav:
   - Installation: 'install/esp.md'
   - Sensoren: 'esptipps/sensoren.md'
   - Tipps: 'esptipps/esp_tipps.md'
+- WSL: 'wsl/wsl.md'
 - Elektronik: 'elektronik/elek_tipps.md'
 - KNX: 'install/knx.md'
 - Grandstream: 'grandstream/grandstream_install.md'
