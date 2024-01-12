@@ -20,18 +20,19 @@
     sudo systemctl enable docker
     </pre>
 
-Das Programm docker-compose wird nun über docker compose aufgerufen!
+Das Programm docker compose wird nun über docker compose aufgerufen!
 
 ## Kommandos
 
-* docker-compose up --build => Docker Container bauen und starten
-* docker-compose down => Docker Container beenden
+* docker compose up --build -d => Docker Container bauen und mit -d im Hintergrund starten
+* docker compose down => Docker Container beenden
 * docker ps => Listet alle laufenden Container mit ID und Namen
 * docker exec -it docker-praxman_db_1  bash => Öffnet Terminal im Container
 * docker images => listet alle verfügbaren images
 * docker container list => Listet alle Container
 * docker volume list => Listet alle Volumes
 * docker rm [volume|container|image] -f (=force) id => Löscht entsprechendes Objekt
+* docker compose down --rmi all => Löscht auch den Cache!
 
 ## Docker Lösungen
 
@@ -87,41 +88,79 @@ Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
 
 #### Anpassungen
 
+Erst nach den Anpassungen den Docker starten!
+
 ##### Folder Struktur
 
 !!! terminal "Terminal"
     <pre>
     docker compose down
     \# ---------------------------------
-    docker-compose.yml anpassen:
-    \# Volume Export auf NAS umstellen
+    docker compose.yml anpassen:
+    \# Volume Export auf NAS umstellen & Startup Script für ZXING Aktivierung Workaround (siehe Extra Kapitel)
     volumes:
         - /home/pi/nas/paperless/export:/usr/src/paperless/export
+        - /home/pi/paperless-ngx/scripts:/custom-cont-init.d:ro
     \# ---------------------------------
-    docker-compose.env anpassen:
+    docker compose.env anpassen:
+    \# Falls consume Folder auf NAS muss Polling aktiviert werden (alle 60 Sek.)
+    PAPERLESS_CONSUMER_POLLING=60
     \# Ordnerstruktur, Barcode ASN und Memory Einstellungen
     PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_year}-{created_month}-{created_day}-{asn}-{title}"
     PAPERLESS_CONSUMER_ENABLE_BARCODES=true # enable search for barcodes
     PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE=true # enable setting ASN by ASN barcodes
+    \# Scanner Software für Barcodes, die auch die kleinen QR Codes der Aufkleber kann
+    PAPERLESS_CONSUMER_BARCODE_SCANNER=ZXING
     \# Ab hier nicht notwendig - war zu Performance Tests
     PAPERLESS_TASK_WORKERS=2
     PAPERLESS_THREADS_PER_WORKER=1
     PAPERLESS_WEBSERVER_WORKERS=1
-    PAPERLESS_CONSUMER_BARCODE_SCANNER=xxx # switch from pyzbar to zxing for better recognition
     \# ---------------------------------
-    docker compose up -d
     </pre>
 
-Falls Filename Format geändert wurde - bestehenden Datenbestand anpassen:
+Noch NICHT den Docker starten!
+
+Falls Filename Format geändert wurde - bestehenden Datenbestand nach den Anpassungen und Docker Start anpassen:
 
 !!! terminal "Terminal"
     <pre>
-    docker compose -f /home/pi/paperless-ngx/docker-compose.yml exec -T webserver document_renamer
+    docker compose -f /home/pi/paperless-ngx/docker compose.yml exec -T webserver document_renamer
     </pre>
 
-##### Inbox Tag erstellen
+***Achtung!!!*** Erst den folgenden Workaround für ZXING einbauen und dann erst starten mit:
+!!! terminal "Terminal"
+    <pre>
+    docker compose up --build -d
+    </pre>
 
-##### User Anzeigename und Mail von pi anpassen
+##### Workaround ZXING Scanner
+
+ZXING Scanner ermöglicht die Nutzung der kleinen Aufkleber QR Codes für die ASN.  
+Der Workaround verlängert den Start Prozess erheblich!  
+Das if im Script bewirkt leider nichts. Es muss bei jedem start installiert werden.
+
+!!! terminal "Terminal"
+    <pre>
+    cd /home/pi/paperless-ngx
+    mkdir scripts
+    sudo chown -R root:root scripts
+    sudo nano startup_install_zxing.sh
+    </pre>
+
+!!! file "scripts/startup_install_zxing.sh"
+    <pre>
+    \#!/bin/bash
+    if pip show zxing-cpp > /dev/null 2>&1; then
+        echo "Paket ZXING ist bereits installiert!"
+    else
+        echo "Paket ZXING wird installiert..."
+        apt-get update
+        apt-get install -y build-essential libssl-dev cmake
+        \# Installiere zxing-cpp mit pip - DAUERT SEHR LANGE!
+        pip install zxing-cpp
+        echo "Paket ZXING ist nun installiert. Weiter geht's..."
+    fi
+    </pre>
 
 #### Backup
 
@@ -134,7 +173,7 @@ Dadurch entsteht auch eine Sicherung auf Helmis NAS.
     docker compose exec -T webserver document_exporter ../export
     \# Cron Job 
     \# Jeden Montag Dienstag Morgen 3 Uhr
-    0 3 * * Tue docker compose -f /home/pi/paperless-ngx/docker-compose.yml exec -T webserver document_exporter ../export/
+    0 3 * * Tue docker compose -f /home/pi/paperless-ngx/docker compose.yml exec -T webserver document_exporter ../export/
     </pre>
 
 #### Ablauf
@@ -170,7 +209,7 @@ Verzeichnisse in /home/pi anlegen (nas=NAS Mount & tmp lokal auf dem Raspi):
 
 In backupdata stehen letztendlich die Backups!
 
-!!! file "/home/pi/nas/kopia/docker-compose.yml"
+!!! file "/home/pi/nas/kopia/docker compose.yml"
     <pre>
     version: '3.7'
     services:

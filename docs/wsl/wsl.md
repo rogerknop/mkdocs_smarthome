@@ -30,3 +30,6 @@ Falls der Service nicht läuft: sudo systemctl status
 * wsl --shutdown
 * wsl neu starten
 * Status erneut testen: sudo systemctl status
+
+## Ansible - Admin Automatisierung
+
