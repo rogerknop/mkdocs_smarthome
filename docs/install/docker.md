@@ -62,7 +62,8 @@ https://docs.paperless-ngx.com/setup/
 
 Auf der Setup Seite wird PostgeSQL empfohlen.
 
-***ACHTUNG!!!*** Wenn auf dem NAS schon ein paperless Verzeichnis existiert, dann dieses in paperless-old umbenennen, um später den export Folder von dort verwenden für den Import.
+!!! warning "Vorsicht"
+    Wenn auf dem NAS schon ein paperless Verzeichnis existiert, dann dieses in paperless-old umbenennen, um später den export Folder von dort verwenden für den Import.
 
 Setup Script in /home/pi ausführen:
 
@@ -84,7 +85,8 @@ Default Werte nutzen im Setup wie z.B. DB (Postgres) - ausser:
 * User: pi
 * Passowort: [RaspiPasswort]
 
-Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
+!!! tip "Tipp"
+    Falls Probleme mit Sonderzeichen im Public Key, dann Setup erneut ausführen.
 
 #### Anpassungen
 
@@ -118,8 +120,6 @@ Erst nach den Anpassungen den Docker starten!
     \# ---------------------------------
     </pre>
 
-Noch NICHT den Docker starten!
-
 Falls Filename Format geändert wurde - bestehenden Datenbestand nach den Anpassungen und Docker Start anpassen:
 
 !!! terminal "Terminal"
@@ -127,7 +127,9 @@ Falls Filename Format geändert wurde - bestehenden Datenbestand nach den Anpass
     docker compose -f /home/pi/paperless-ngx/docker compose.yml exec -T webserver document_renamer
     </pre>
 
-***Achtung!!!*** Erst den folgenden Workaround für ZXING einbauen und dann erst starten mit:
+!!! warning "Warnung"
+    Noch NICHT den Docker starten! Erst Workaround für ZXING(siehe unten) einbauen und dann erst starten. Das Autostart Script für den Workaround läuft sehr lange.
+
 !!! terminal "Terminal"
     <pre>
     docker compose up --build -d
@@ -191,7 +193,9 @@ Dadurch entsteht auch eine Sicherung auf Helmis NAS.
 * CLI Generator verwenden:
     * paperless-asn-qr-codes -h => Parameter StartASN und Output pdf
     * paperless-asn-qr-codes 1 paperless.pdf
-    ACHTUNG! Beim PDF Druck darauf achten, dass keine Größenanpassung durchgeführt wird. Also "Actual Size" verwenden.
+
+!!! danger  "Achtung!" 
+    Beim PDF Druck darauf achten, dass keine Größenanpassung durchgeführt wird. Also "Actual Size" verwenden.
 
 Evtl. Integeration in Paperless: https://github.com/paperless-ngx/paperless-ngx/discussions/4588
 

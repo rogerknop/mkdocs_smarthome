@@ -50,6 +50,21 @@ npm run convert => Powerpoint Slides in JPG exportieren
 npm run convertdeploy => Volles Programm: Convert, Build und Deploy
 ```
 
+# Tipps für's Schreiben
+
+Es können besonders markierte Bereiche verwendet werden: https://squidfunk.github.io/mkdocs-material/reference/admonitions/  
+Zum Beispiel: warning, bug, danger, question, tip, success, info usw.  
+```
+!!! warning "Warnung"
+    Lorem ipsum...
+```
+```
+??? danger "Achtung"
+    Lorem ipsum... klappbar
+    Mit ???+ gleich geöffnet
+```
+
+
 # Slides in Bilder konvertieren - IN ZUKUNFT NUR NOCH DrawIO!
 Es sollte pro PPTX nur ein Slide existieren, damit beide Konvertierungsvarianten verwendet werden können.
 

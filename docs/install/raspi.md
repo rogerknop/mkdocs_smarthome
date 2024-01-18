@@ -208,8 +208,8 @@ Geht auch über Desktop in der Konfiguration!
     </pre>
 ~~sudo update-rc.d ssh defaults~~ Autostart beim Booten (alt) => gemäß [Kapitel _Konfigurationsmenü_](#konfigurationsmenu) Interfaces aktivieren
 
-***ACHTUNG!***
-Falls die IP schon mal von einem PC aus per SSH verbunden wurde per Putty oder VSCode, dann die IP Einträge aus der Datei **"%UserProfile%/.ssh/known_hosts"** entfernen
+!!! danger "Achtung!
+    Falls die IP schon mal von einem PC aus per SSH verbunden wurde per Putty oder VSCode, dann die IP Einträge aus der Datei **"%UserProfile%/.ssh/known_hosts"** entfernen
 
 ##### SSH ohne Passwortabfrage für Zugriff von außerhalb
 
@@ -253,8 +253,8 @@ Danach den SSH Dienst neustarten, damit die Änderungen aktiv werden:
     systemctl restart ssh
     </pre>
 
-***Achtung!!!*** 
-Der private Key muss dann unbedingt gesichert werden, da sonst bei Verlust kein Zugriff mehr auf den Server möglich ist!
+!!! danger "Achtung!" 
+    Der private Key muss dann unbedingt gesichert werden, da sonst bei Verlust kein Zugriff mehr auf den Server möglich ist!
 
 Der vereinfachte Zugriff auf den Server kann über Config Dateien erfolgen. Hierzu auf dem Client die Datei ~/.ssh/config anlegen.  
 Mehrere Hosts sind möglich!
@@ -359,10 +359,11 @@ Dadurch kann man die FHEM Konfiguration in die automatische Sicherung mit einbin
 Mit Mounten kann man andere Netzwerklaufwerke in den Raspi einbinden, damit man darauf zugreifen kann.  
 Somit kann man z.B. auf die FHEM Sicherung im NAS oder auf andere Daten im Netzwerk zugreifen.
 
-ACHTUNG!!! Unter Bookworm war am Anfang ein Fehler, dass beim Reboot kein mount durchgeführt wird und immer auch ein Hinweis beim Mountbefehl.  
-Hier ist ein Script zur Behebung: https://forums.raspberrypi.com/viewtopic.php?t=362156#p2172794  
-Hat nicht richtig funktioniert, bzw. weiss ich nicht genau, ob es was bewirkt hat.  
-In fstab habe ich x-systemd.automount rausgeschmissen.
+!!! tip "Tipp"
+    Unter Bookworm war am Anfang ein Fehler, dass beim Reboot kein mount durchgeführt wird und immer auch ein Hinweis beim Mountbefehl.  
+    Hier ist ein Script zur Behebung: https://forums.raspberrypi.com/viewtopic.php?t=362156#p2172794  
+    Hat nicht richtig funktioniert, bzw. weiss ich nicht genau, ob es was bewirkt hat.  
+    In fstab habe ich x-systemd.automount rausgeschmissen.
 
 !!! terminal "Terminal"
     <pre>
@@ -451,7 +452,8 @@ Um eine Datei zu versenden ist zusätzlich mpack erforderlich:
 Es ist möglich (auch ohne Desktop) OneDrive auf dem Raspi zu installieren.  
 Alle Infos in GitHub unter <a href="https://github.com/abraunegg/onedrive" target="_blank">https://github.com/abraunegg/onedrive</a>
 
-***Achtung!*** Den URL Login nicht auf dem Firmenrechner und nicht auf dem IPad ausführen, sondern in einem anderen PC im Incognito Modus!
+!!! warning "Warnung"
+    Den URL Login nicht auf dem Firmenrechner und nicht auf dem IPad ausführen, sondern in einem anderen PC im Incognito Modus!
 
 !!! terminal "Terminal"
     <pre>
@@ -520,7 +522,9 @@ NPM wird automatisch installiert zusammen mit den neuen NodeJS Versionen.
 Autostart eines eigenen NodeJS Web Servers über das Tool pm2.  
 Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.  
 
-***ACHTUNG!!!*** Damit pm2 beim Booten ein Netzwerk hat muss in raspi-config unter System Options -> Network at Boot YES ausgewählt werden!
+!!! warning "Warnung"
+    Damit pm2 beim Booten ein Netzwerk hat muss in raspi-config unter System Options -> Network at Boot YES ausgewählt werden!  
+    Ports unter 1024 gehen nicht!    
 
 !!! terminal "Terminal"
     <pre>
@@ -536,8 +540,6 @@ Startet nach Neustart und nach kill -9 erfolgt ein Restart des Scripts.
     //Wichtig bei Erstinstallation und pm2 ohne sudo nutzen
     sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi --wait-ip
     </pre>
-
-***Achtung!*** Ports unter 1024 gehen nicht! Und es muss "Warten auf Netzwerk beim Booten" aktiviert sein!    
 
 Man kann die Permissions aktivieren über:
 
@@ -564,8 +566,6 @@ pm2 Befehle (komplett über pm2 -h):
   * Ventilator muss über sudo gestartet werden, da gpio sudo Rechte benötigt
 
 Mit Log bei Problemen: pm2 start --log /smartdisplay/pmlog.txt server/index.js -- 8000
-
-***Achtung!*** Ports unter 1024 gehen nicht
 
 Ports für lokale Server unter 1024 aktivieren: sudo setcap 'cap_net_bind_service=+ep' \`which node\` (ACHTUNG Backslash nur für md Anzeige)
 

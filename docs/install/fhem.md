@@ -368,6 +368,10 @@ Wenn es neue Alexa Geräte in FHEM gibt, dann muss der Alexa Server in FHEM WebU
 * Gerätesuche
 * Pro Gerät anklicken und einrichten
 
+!!! danger "Achtung"
+    Es gibt keinen Menüpunkt mehr in der Alexa App um neue Geräte zu suchen. Einfach Sprachbefehl in der App ausführen: Alexa, suche neue Geräte!  
+    Nach einiger Zeit sollte Alexa melden, dass neue Geräte gefunden wurden.
+
 ## Amazon Echo Geräte
 
 Hier können mit Hilfe des Moduls echodevice z.B. Texte auf den Echos ausgegeben werden: <a href="https://mwinkler.jimdo.com/smarthome/eigene-module/echodevice/" target="_blank">https://mwinkler.jimdo.com/smarthome/eigene-module/echodevice/</a>
@@ -405,7 +409,7 @@ MAX Geräte werden nicht mehr hergestellt. Wir haben evtl. noch Heizungsthermost
 Falls im Log folgendes auftaucht, obwohl anscheinend verbunden:
 CUL_MAX_SendQueueHandler: Missing ack from 1997cb for 0b0e00401234561997cb0068
 
-Achtung!!! Vincent zum Anlernen abschrauben und ins Büro mitnehmen wegen Empfang.
+Achtung!!! Regler zum Anlernen abschrauben und ins Büro mitnehmen wegen Empfang.
 
 Dann neu anlernen:
 
