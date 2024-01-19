@@ -459,41 +459,63 @@ Bei Problemen auf dem Raspi den Folder ~/.vscode-server löschen:
 
 ## Modifikation Modul weekprofile für Homematic
 
-***Der Patch 1 ist bereits enthalten in FHEM!***
-
 Weekprofile unterstützt zwar Homematic, aber da das Homematic Modul die Geräte unterschiedlich behandelt, gibt es wohl keine einheitliche Lösung. Daher muss für meine Heizungsthermostate eine Modifikation vorgenommen werden. Es dürfen im derzeitigen Knop Haus keine Präfixe verwendet werden.  
 &rarr; Modul: 98_weekprofile.pm  
 &rarr; Routine: Sub weekprofile_sendDevProfile  
 &rarr; Im letzten Drittel (hinter Zeile 480)  
 
 Bei HM IP sieht das etwas anders auch und auch hier gab es Fehler: /index.php?topic=46117.705 Message #717  
-Daher wurde die 1 bei set config entfernt und aus dem Präfix ein Substring entfernt.
+Daher wurde die 1 bei set config entfernt und aus dem Präfix ein Substring entfernt.  
+Das war bei einem anderen User nicht so. Siehe Kommentare im Code unten.
 
-??? file "98_weekprofile.pm"
+!!! tip "Tipp"
+    Die Änderungen werden jedes Mal mit dem rokscripts/cleanup Sctipt in die Sicherungsdate 98_weekprofile-BACKUP.txt kopiert.
+
+!!! file "98_weekprofile.pm"
     <pre>
     ...
-    } elsif ($type =~ /HMCCU.*/){ 
-        $cmd .= "set $device config" if ($type eq "HMCCU_HM");
-        #CHANGED: device oder 1 geht nicht
-        #$cmd .= "set $device config 1" if ($type eq "HMCCU_IP"); #Neuer Fehler
-        $cmd .= "set $device config" if ($type eq "HMCCU_IP");     #Neuer Fehler    
-        my $k=0;
-        my $dayCnt = scalar(@dayToTransfer);
-        my $prefix = weekprofile_get_prefix_HM($device,"ENDTIME_SUNDAY_1",$me);
-        #CHANGED: Präfix ist R-P1_ aber das R- darf nicht mitgeschickt werden
-        #no prefix by set see topic, /index.php?topic=46117 #695
-        #$prefix = "" if ($type eq "HMCCU_HM");
-        <br>
-        if ($type eq "HMCCU_IP") {
-          $prefix =~ s/R-//; #Neuer Fehler
-        }
-        else {
-          $prefix = ""; # always no prefix by set #msg1113658
-        }
-        <br>
-        if (!defined($prefix)) {
-          Log3 $me, 3, "$me(sendDevProfile): no prefix found"; 
-          $prefix = ""; 
+        } elsif ($type =~ /HMCCU.*/){ 
+            $cmd .= "set $device config device" if ($type eq "HMCCU_HM");
+            ___#rok-begin___ device oder 1 geht nicht
+            \#ACHTUNG! Im Ticket schreibt ein User, dass er die 1 benötigt
+            \#https://forum.fhem.de/index.php?topic=46117.719 - #719
+            \#$cmd .= "set $device config 1" if ($type eq "HMCCU_IP");
+            $cmd .= "set $device config" if ($type eq "HMCCU_IP");
+            ___#rok-end___
+            my $k=0;
+            my $dayCnt = scalar(@dayToTransfer);
+            my $prefix = weekprofile_get_prefix_HM($device,"ENDTIME_SUNDAY_1",$me);
+            &nbsp;
+            ___#rok-begin___: Präfix ist R-P1_ aber das R- darf nicht mitgeschickt werden
+            \#https://forum.fhem.de/index.php?topic=46117.719 - #719
+            \#$prefix = ""; # always no prefix by set #msg1113658 
+            if ($type eq "HMCCU_IP") {
+                $prefix =~ s/R-//;
+                $prefix =~ s/R-1\.//;
+            }
+            else {
+                $prefix = ""; # always no prefix by set #msg1113658 
+            }
+            ___#rok-end___
+            &nbsp;
+            if (!defined($prefix)) {
+                Log3($me, 3, "$me(sendDevProfile): no prefix found"); 
+                $prefix = ""; 
+            }
+            foreach my $day (@dayToTransfer){
+                my $reading = $DEV_READINGS{$day}{$type};
+                my $dpTime = "$prefix"."ENDTIME_$reading";
+                my $dpTemp = "$prefix"."TEMPERATURE_$reading";    
+                my $tmpCnt =  scalar(@{$prfData->{$day}->{"temp"}});
+                for (my $i = 0; $i < $tmpCnt; $i++) {
+                    $cmd .= " " . $dpTemp . "_" . ($i + 1) . "=" . $prfData->{$day}->{"temp"}[$i];
+                    $cmd .= " " . $dpTime . "_" . ($i + 1) . "=" . weekprofile_timeToMinutes($prfData->{$day}->{"time"}[$i]);
+                    ___#rok-begin___: Evtl. durch ein Firmware Update nicht mehr nötig
+                    \#$cmd .= ":" if ($type eq "HMCCU_HM"); # ':' after time see #msg1191311
+                    ___#rok-end___
+                }
+                $k++;
+            }
         }
     ...
     </pre>
