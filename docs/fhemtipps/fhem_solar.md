@@ -13,6 +13,7 @@ PDF ABLEGEN!
 * Für DWD: sudo apt-get install libdatetime-perl
 * Für SMAEM: sudo apt-get install libio-socket-multicast-perl
 * Für SMAInverter: sudo apt-get install libio-socket-perl
+* Für AI Support: sudo apt-get install libai-decisiontree-perl
 * Feste IPs:
     * Home Manager -> Download Tool: SMA Home Manager Assistent
     * Wechselrichter (Netz & Akku) über die Webseite (IP im Router suchen): Geräteparamter & Parameter bearbeiten -> Anlagenkommunikation -> Speedwire: Automatische Konfiguration eingeschaltet NEIN & IP & Gateway usw. Speichern

@@ -471,12 +471,12 @@ Das war bei einem anderen User nicht so. Siehe Kommentare im Code unten.
 !!! tip "Tipp"
     Die Änderungen werden jedes Mal mit dem rokscripts/cleanup Sctipt in die Sicherungsdate 98_weekprofile-BACKUP.txt kopiert.
 
-!!! file "98_weekprofile.pm"
+!!! file "98_weekprofile.pm - sub weekprofile_sendDevProfile"
     <pre>
     ...
         } elsif ($type =~ /HMCCU.*/){ 
             $cmd .= "set $device config device" if ($type eq "HMCCU_HM");
-            ___#rok-begin___ device oder 1 geht nicht
+            ___#rok-begin: device oder 1 geht nicht___
             \#ACHTUNG! Im Ticket schreibt ein User, dass er die 1 benötigt
             \#https://forum.fhem.de/index.php?topic=46117.719 - #719
             \#$cmd .= "set $device config 1" if ($type eq "HMCCU_IP");
@@ -484,9 +484,9 @@ Das war bei einem anderen User nicht so. Siehe Kommentare im Code unten.
             ___#rok-end___
             my $k=0;
             my $dayCnt = scalar(@dayToTransfer);
-            my $prefix = weekprofile_get_prefix_HM($device,"ENDTIME_SUNDAY_1",$me);
+            my $prefix = weekprofile_get_prefix_HM($device,"ENDTIME_SUNDAY_1",$me);  
             &nbsp;
-            ___#rok-begin___: Präfix ist R-P1_ aber das R- darf nicht mitgeschickt werden
+            ___\#rok-begin: Präfix ist R-P1\_ aber das R- darf nicht mitgeschickt werden___
             \#https://forum.fhem.de/index.php?topic=46117.719 - #719
             \#$prefix = ""; # always no prefix by set #msg1113658 
             if ($type eq "HMCCU_IP") {
@@ -496,7 +496,7 @@ Das war bei einem anderen User nicht so. Siehe Kommentare im Code unten.
             else {
                 $prefix = ""; # always no prefix by set #msg1113658 
             }
-            ___#rok-end___
+            ___\#rok-end___
             &nbsp;
             if (!defined($prefix)) {
                 Log3($me, 3, "$me(sendDevProfile): no prefix found"); 
@@ -510,12 +510,28 @@ Das war bei einem anderen User nicht so. Siehe Kommentare im Code unten.
                 for (my $i = 0; $i < $tmpCnt; $i++) {
                     $cmd .= " " . $dpTemp . "_" . ($i + 1) . "=" . $prfData->{$day}->{"temp"}[$i];
                     $cmd .= " " . $dpTime . "_" . ($i + 1) . "=" . weekprofile_timeToMinutes($prfData->{$day}->{"time"}[$i]);
-                    ___#rok-begin___: Evtl. durch ein Firmware Update nicht mehr nötig
+                    ___#rok-begin: Evtl. durch ein Firmware Update nicht mehr nötig___
                     \#$cmd .= ":" if ($type eq "HMCCU_HM"); # ':' after time see #msg1191311
-                    ___#rok-end___
+                    ___\#rok-end___
                 }
                 $k++;
             }
         }
+    ...
+    &nbsp;
+    __#Am Ende der Funktion__
+                else {
+            Log3($me, 4, "$me(sendDevProfile): $cmd");
+            $ret = fhem($cmd,1);
+            DoTrigger($me,"PROFILE_TRANSFERED $device",1);
+            }
+            ___#rok-begin: Kein Update der Wochenprofil Readings INSERT___
+            if (($type eq "HMCCU_HM") || ($type eq "HMCCU_IP")) {
+              fhem("sleep 1; get $device config");
+            }
+            ___#rok-end INSERT___
+        }
+        return $ret;
+    }
     ...
     </pre>
