@@ -23,6 +23,8 @@ PDF ABLEGEN!
 * Homemanager wird in FHEM automatisch erkannt: define SMAHomeManager SMAEM
 * SMAInverter Wechselrichter: define Tripower6  SMAInverter <Benutzer PW> 192.168.1.65
 * SMAInverter Wechselrichter: define BoyStorage  SMAInverter <Benutzer PW> 192.168.1.64
+* DWD zuordnen
+* set pvCorrectionFactor_Auto für DWD auf on_complex_ai setzen 
 * SolarForecast
     * "wget -qO ./FHEM/76_SolarForecast.pm https://svn.fhem.de/fhem/trunk/fhem/contrib/DS_Starter/76_SolarForecast.pm"
     * FHEM Command Line: help SoloarForecast de => Hilfe
