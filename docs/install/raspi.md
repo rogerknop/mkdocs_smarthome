@@ -32,7 +32,7 @@ Fast alle Befehle müssen als Root User auf Unix Systemen ausgeführt werden. Di
     sudo apt-get --simulate dist-upgrade
     </pre>
  
-### Probleme analysieren & Resource Monitoring
+### Probleme analysieren & Resource Monitoring & Performance
 
 !!! terminal "Terminal"
     <pre>
@@ -656,6 +656,14 @@ Zum Beispiel die Praxis Sicherung jeden Freitag 22 Uhr mit einem separaten Logfi
     \#
     \# Helmi Bidirect Sicherung: Alle 2 Wochen am Dienstag um 22 Uhr
     0 22 * * Tue [ $(expr $(date +%W) % 2) -eq 1 ] && /bin/bash /home/pi/backup_script/backup_helmi_bidirect.sh > /home/pi/backup_script/logs/helmi_backup_\`date +\%Y-\%m-\%d_\%H:\%M\`.log 2>&1
+    </pre>
+
+### Tool for Folder/File Tree of a subfolder
+
+!!! terminal "Terminal"
+    <pre>
+    sudo apt-get install tree
+    tree /subfolder
     </pre>
 
 ### Bash History Search 
