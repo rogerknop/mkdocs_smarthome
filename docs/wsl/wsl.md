@@ -31,5 +31,15 @@ Falls der Service nicht läuft: sudo systemctl status
 * wsl neu starten
 * Status erneut testen: sudo systemctl status
 
+## Sonstige Installationen
+
+### Git
+
+Damit git in WSL sich die access tokens merken kann:
+!!! terminal "Terminal"
+    <pre>
+    git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+    </pre>
+
 ## Ansible - Admin Automatisierung
 
