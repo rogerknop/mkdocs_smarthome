@@ -38,3 +38,21 @@ PDF ABLEGEN!
     * moduleTiltAngle Westdach=30
     * pvCorrectionFactor_Auto on
     * Attr flowGraphicSize 600
+
+### Problem, wenn der SMA Homemanager keine Werte mehr liefert
+
+Wenn das device smahomemanager keine aktuellen Readings mehr bekommt, dann sollten folgende Punkte geprüft werden:
+
+* Ist die IP (192.168.1.66) vom Raspi erreichbar?
+* Funktioniert die App und das Portal noch? https://www.sunnyportal.com/
+* SMAEM Testscript testen:
+    * FHEM stoppen: sudo systemctl stop fhem
+    * Unter rokscripts das Tool starten: perl rokscripts/smaem_test.pl
+    * Prüfen, ob Werte ankommen
+    * FHEM starten: sudo systemctl start fhem
+* Wenn alles ok, dann SMA Home Manager neu starten
+    * Portalseite -> Konfiguration Geräteübersicht
+    * Eigenschaften Icon des SMA Home Manager anklicken
+    * Ganz unten auf "Bearbeiten" klicken
+    * Oben Radiobutton "Erweiterte Konfiguration wählen"
+    * Bei "Produktgruppe: Sunny Home Manager" auf "Neustart" klicken
