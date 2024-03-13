@@ -39,6 +39,14 @@ Inzwischen ist die Installation vereinfacht worden. Details gibt es hier: <a hre
     sudo apt-get install fhem
     </pre>
 
+### FHEM Starten/Stoppen
+
+!!! terminal "Terminal"
+    <pre>
+    systemctl start fhem
+    systemctl stop fhem
+    </pre>
+
 ### Updates
 
 _ACHTUNG!!!_ Vor der Ausführung eines FHEM Updates oder vor der Installation eines CCU Firmware Updates muss der RPC-Server unter Umständen gestoppt werden, falls es zu Problemen kommt, das der rpcserver danach nicht mehr startet.

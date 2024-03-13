@@ -41,18 +41,54 @@ PDF ABLEGEN!
 
 ### Problem, wenn der SMA Homemanager keine Werte mehr liefert
 
-Wenn das device smahomemanager keine aktuellen Readings mehr bekommt, dann sollten folgende Punkte geprüft werden:
+Wenn das device SMAHomeManager keine aktuellen Readings mehr bekommt, dann gibt es ein Problem mit den Multicast Messages.
+
+Simpel erklärt: SMA-HM/EM erzeugt die Daten und sendet diese dann pauschal ins interne Netzwerk (Eigentlich an die hinterlegte IP-Adresse - dies ist aber hier eine "öffentliche" Multicastadresse 239.12.255.254).
+
+Alle anderen (die Multicast empfangen möchten) lauschen auf dieser Mulicastadresse und können dies nun empfangen - wenn dafür was "kommt'.
+
+Wenn irgend ein Gerät (im internen IP-Netz) dann dies nicht mehr weiterleitet - weil es dies nicht kann oder defekt ist -, wird der Datensatz nur bis zu diesem Gerät (Switch/Hub/Repaeter/DLAN ect.) ankommen, aber kann (s.v.) von diesem Gerät aus nicht mehr weiter zw. durchgeleitet werden und das Gerät dahinter empfängt nichts.
+
+<a href="https://forum.fhem.de/index.php?topic=51569.1005" target="_blank">https://forum.fhem.de/index.php?topic=51569.1005</a>
+
+#### Manuelle Prüfungen & Testscript
 
 * Ist die IP (192.168.1.66) vom Raspi erreichbar?
 * Funktioniert die App und das Portal noch? https://www.sunnyportal.com/
-* SMAEM Testscript testen:
-    * FHEM stoppen: sudo systemctl stop fhem
+* SMAEM Testscript testen (geht auch auf beliebigem Raspi):
+    * Evtl. vorher Multicast Package installieren: 
+        * https://github.com/kettenbach-it/FHEM-SMA-Speedwire
+        * sudo apt-get install libio-socket-multicast-perl
+    * FHEM stoppen: sudo systemctl stop fhem (falls fhem Raspi)
     * Unter rokscripts das Tool starten: perl rokscripts/smaem_test.pl
     * Prüfen, ob Werte ankommen
-    * FHEM starten: sudo systemctl start fhem
-* Wenn alles ok, dann SMA Home Manager neu starten
-    * Portalseite -> Konfiguration Geräteübersicht
-    * Eigenschaften Icon des SMA Home Manager anklicken
-    * Ganz unten auf "Bearbeiten" klicken
-    * Oben Radiobutton "Erweiterte Konfiguration wählen"
-    * Bei "Produktgruppe: Sunny Home Manager" auf "Neustart" klicken
+    * FHEM starten: sudo systemctl start fhem (falls fhem Raspi)
+
+#### Lösungsansätze
+
+!!! success "Evtl. Erfolgreich!"
+    Letztendlich hat wahrscheinlich der Router Neustart die Lösung gebracht!
+
+##### Versuch 1: SMA Home Manager neu starten
+
+Allerdings prüfen. Es kann sein, dass kurz danach wieder keine Daten aktualisiert werden
+
+* Portalseite -> Konfiguration Geräteübersicht
+* Eigenschaften Icon des SMA Home Manager anklicken
+* Ganz unten auf "Bearbeiten" klicken
+* Oben Radiobutton "Erweiterte Konfiguration wählen"
+* Bei "Produktgruppe: Sunny Home Manager" auf "Neustart" klicken
+
+!!! warning "Warnung"
+    Nach 10 Minuten evtl. wieder kein Empfang!
+
+##### Versuch 2: Wenn es die Multicast Messages immer wieder ausbleiben, dann kann man die Raspi IP lokal im Sunny Portal eintragen:
+
+* Portalseite -> Konfiguration Geräteübersicht
+* Eigenschaften Icon des SMA Home Manager anklicken
+* Ganz unten auf "Bearbeiten" klicken
+* Oben Radiobutton "Erweiterte Konfiguration wählen"
+* Ganz unten "Direkte Zähler Kommunikation" - Hier die IP vom FHEM Raspi eintragen
+
+!!! warning "Warnung"
+    Dadurch wird die Standard IP 239.12.255.254 nicht mehr versorgt => Kein Laden mehr der Batterie !

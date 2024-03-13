@@ -52,6 +52,8 @@ npm run convertdeploy => Volles Programm: Convert, Build und Deploy
 
 # Tipps für's Schreiben
 
+Siehe auch Legende!
+
 Es können besonders markierte Bereiche verwendet werden: https://squidfunk.github.io/mkdocs-material/reference/admonitions/  
 Zum Beispiel: warning, bug, danger, question, tip, success, info usw.  
 ```

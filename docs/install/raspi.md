@@ -706,6 +706,7 @@ Damit die Forwardsuche funktioniert vorher ```stty -ixon``` eingeben!
 | ncdu /folder | Treesize für Folder |
 | ls -al /folder --block-size=M oder G | Folder in MB oder GB anzeigen |
 | history \| grep [Suchbegriff] | History nach bestimmten Wort durchsuchen |
+| netstat -tulpn \| grep [Port] | Prüfen, welche Prozesse auf einen bestimmten Port hören |
 
 ### SD Karte vergrößern
 
